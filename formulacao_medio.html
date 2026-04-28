@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulação: Nível B</title>
+    <style>
+        :root { 
+            --bg: #0d1117; 
+            --card: #161b22; 
+            --primary: #58a6ff; 
+            --success: #3fb950; 
+            --error: #f85149; 
+            --warning: #d29922;
+            --text: #c9d1d9; 
+            --text-dim: #8b949e;
+            --border: #30363d;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            padding: 20px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container { width: 100%; max-width: 600px; }
+        .nav-back { color: var(--primary); text-decoration: none; font-weight: bold; margin-bottom: 20px; display: block; }
+        
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { color: var(--warning); }
+
+        .card { 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 20px; 
+            margin-bottom: 20px;
+        }
+
+        .question-text { font-size: 1.1rem; margin-bottom: 15px; display: block; color: #ffa657; line-height: 1.5; }
+        
+        label { font-size: 0.85rem; color: var(--text-dim); }
+        input { 
+            background: #0d1117; border: 1px solid var(--border); color: white; 
+            padding: 10px; border-radius: 8px; width: 100%; margin: 5px 0 15px; 
+            outline: none;
+        }
+        input:focus { border-color: var(--warning); }
+
+        button { 
+            background: var(--warning); border: none; padding: 12px; 
+            border-radius: 8px; cursor: pointer; font-weight: bold; color: white; width: 100%;
+        }
+
+        .feedback { margin-top: 15px; padding: 12px; border-radius: 8px; display: none; font-size: 0.9rem; }
+        .correct { background: rgba(63, 185, 80, 0.1); color: var(--success); border: 1px solid var(--success); }
+        .wrong { background: rgba(248, 81, 73, 0.1); color: var(--error); border: 1px solid var(--error); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" class="nav-back">← Voltar ao Menu</a>
+    <header>
+        <h1>Formulação de Equações</h1>
+        <p style="color: var(--text-dim)">Nível B: Problemas Contextualizados</p>
+    </header>
+    <div id="quiz-container"></div>
+</div>
+
+<script>
+    const questions = [
+        { q: "O dobro de um número somado com sua terça parte é igual a 7.", eq: "2x+x/3=7", a: "3", hint: "Escreva: 2x + x/3 = 7." },
+        { q: "A soma de três números consecutivos é igual a 33. Qual o menor deles?", eq: "x+x+1+x+2=33", a: "10", hint: "Use x, (x+1) e (x+2)." },
+        { q: "Um retângulo tem base x e altura 4. Se o perímetro é 20, qual o valor de x?", eq: "2x+8=20", a: "6", hint: "Perímetro = 2*base + 2*altura." },
+        { q: "A idade de Paulo é o triplo da de seu filho. Juntos eles têm 40 anos. Qual a idade do filho?", eq: "3x+x=40", a: "10", hint: "Filho (x) + Paulo (3x) = 40." },
+        { q: "Um número somado com seu sucessor é igual a 19.", eq: "x+x+1=19", a: "9", hint: "x + (x+1) = 19." },
+        { q: "A diferença entre o triplo de um número e 15 é igual a zero.", eq: "3x-15=0", a: "5", hint: "3x - 15 = 0." },
+        { q: "Comprei 3 cadernos de x reais e paguei com 50 reais. Recebi 20 de troco.", eq: "50-3x=20", a: "10", hint: "Dinheiro - Custo = Troco." },
+        { q: "O quíntuplo de um número menos 10 é igual ao triplo desse número.", eq: "5x-10=3x", a: "5", hint: "5x - 10 = 3x." },
+        { q: "Um número x somado ao seu dobro e ao seu triplo resulta em 60.", eq: "x+2x+3x=60", a: "10", hint: "x + 2x + 3x = 60." },
+        { q: "A metade de um número somada com 10 é igual a 15.", eq: "x/2+10=15", a: "10", hint: "x/2 + 10 = 15." },
+        { q: "Em um triângulo, dois lados medem x e o terceiro mede 10. O perímetro é 30.", eq: "2x+10=30", a: "10", hint: "Soma dos lados = 30." },
+        { q: "Pensei em um número, multipliquei por 4 e subtrai 2. O resultado foi 18.", eq: "4x-2=18", a: "5", hint: "4x - 2 = 18." },
+        { q: "A soma de um número com sua quarta parte é 5.", eq: "x+x/4=5", a: "4", hint: "x + x/4 = 5." },
+        { q: "O triplo da diferença entre x e 5 é igual a 12.", eq: "3(x-5)=12", a: "9", hint: "Use parênteses: 3*(x-5) = 12." },
+        { q: "A terça parte de um número somada a 5 é igual a 11.", eq: "x/3+5=11", a: "18", hint: "x/3 + 5 = 11." },
+        { q: "Soma de dois números pares consecutivos é 22.", eq: "x+x+2=22", a: "10", hint: "x + (x+2) = 22." },
+        { q: "O dobro de x menos 7 é igual a x mais 5.", eq: "2x-7=x+5", a: "12", hint: "2x - 7 = x + 5." },
+        { q: "A quarta parte de um número é igual a esse número menos 9.", eq: "x/4=x-9", a: "12", hint: "x/4 = x - 9." },
+        { q: "Um número somado com 2 e o resultado multiplicado por 3 dá 15.", eq: "3(x+2)=15", a: "3", hint: "3*(x+2) = 15." },
+        { q: "A soma de um número x com seu dobro é igual a 21.", eq: "x+2x=21", a: "7", hint: "x + 2x = 21." }
+    ];
+
+    const container = document.getElementById('quiz-container');
+
+    questions.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <span class="question-text"><b>${index+1}.</b> ${item.q}</span>
+            <label>Monte a Equação:</label>
+            <input type="text" id="eq-${index}" placeholder="Ex: 2(x+1)=10">
+            <label>Valor de X:</label>
+            <input type="text" id="ans-${index}" placeholder="Valor numérico...">
+            <button onclick="check(${index})">Verificar</button>
+            <div id="feedback-${index}" class="feedback"></div>
+        `;
+        container.appendChild(card);
+    });
+
+    function check(i) {
+        const eqInput = document.getElementById(`eq-${i}`).value.replace(/\s+/g, '').toLowerCase();
+        const ansInput = document.getElementById(`ans-${i}`).value.trim();
+        const f = document.getElementById(`feedback-${i}`);
+        f.style.display = "block";
+        
+        const correctEq = questions[i].eq.replace(/\s+/g, '').toLowerCase();
+
+        if(eqInput === correctEq && ansInput === questions[i].a) {
+            f.innerHTML = "✅ <b>Excelente!</b> Você traduziu e resolveu corretamente.";
+            f.className = "feedback correct";
+        } else if (ansInput === questions[i].a) {
+            f.innerHTML = "⚠️ <b>Resposta correta</b>, mas a equação esperada era: <code>" + questions[i].eq + "</code>";
+            f.className = "feedback wrong";
+        } else {
+            f.innerHTML = "❌ <b>Ainda não.</b> " + questions[i].hint;
+            f.className = "feedback wrong";
+        }
+    }
+</script>
+
+</body>
+</html>
