@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Potência e Raiz: Nível A</title>
+    <style>
+        :root { 
+            --bg: #0d1117; 
+            --card: #161b22; 
+            --primary: #58a6ff; 
+            --success: #3fb950; 
+            --error: #f85149; 
+            --text: #c9d1d9; 
+            --text-dim: #8b949e;
+            --border: #30363d;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            padding: 20px; 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container { width: 100%; max-width: 600px; }
+
+        .nav-back { 
+            display: inline-block; 
+            margin-bottom: 20px; 
+            color: var(--primary); 
+            text-decoration: none; 
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        header { text-align: center; margin-bottom: 30px; }
+        
+        h1 { 
+            color: var(--success); 
+            font-size: 1.8rem; 
+            margin-bottom: 10px;
+        }
+
+        .card { 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 20px; 
+            margin-bottom: 20px;
+        }
+
+        .question-text { font-size: 1.2rem; margin-bottom: 15px; display: block; }
+        
+        /* Estilo para expoentes no texto */
+        .exp { vertical-align: super; font-size: 0.8em; color: var(--primary); }
+
+        input { 
+            background: #0d1117; 
+            border: 1px solid var(--border); 
+            color: white; 
+            padding: 12px; 
+            border-radius: 8px; 
+            width: 100%; 
+            box-sizing: border-box; 
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--success); }
+
+        button { 
+            background: var(--success); 
+            border: none; 
+            padding: 12px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            color: white; 
+            width: 100%; 
+            margin-top: 12px;
+        }
+
+        button:hover { opacity: 0.9; }
+
+        .feedback { 
+            margin-top: 15px; 
+            padding: 12px; 
+            border-radius: 8px; 
+            display: none; 
+            font-size: 0.9rem; 
+            line-height: 1.4;
+        }
+
+        .correct { background: rgba(63, 185, 80, 0.1); color: var(--success); border: 1px solid var(--success); }
+        .wrong { background: rgba(248, 81, 73, 0.1); color: var(--error); border: 1px solid var(--error); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" class="nav-back">← Voltar ao Menu</a>
+    
+    <header>
+        <h1>Potência e Raiz</h1>
+        <p style="color: var(--text-dim)">Nível A: Conceitos Fundamentais</p>
+    </header>
+    
+    <div id="quiz-container"></div>
+</div>
+
+<script>
+    const questions = [
+        { q: "Quanto é 2<span class='exp'>3</span>?", a: "8", hint: "Dica: 2 x 2 x 2. Não é 2 x 3!" },
+        { q: "Qual o valor de 5<span class='exp'>2</span>?", a: "25", hint: "Dica: 5 x 5." },
+        { q: "Quanto é 10<span class='exp'>2</span>?", a: "100", hint: "Dica: 10 x 10." },
+        { q: "Qual a raiz quadrada de 9 (√9)?", a: "3", hint: "Dica: Qual número multiplicado por ele mesmo dá 9?" },
+        { q: "Quanto é 7<span class='exp'>0</span>?", a: "1", hint: "Dica: Todo número (exceto zero) elevado a zero é igual a..." },
+        { q: "Qual o valor de 1<span class='exp'>50</span>?", a: "1", hint: "Dica: 1 multiplicado por ele mesmo qualquer número de vezes é sempre..." },
+        { q: "Quanto é 4<span class='exp'>2</span>?", a: "16", hint: "Dica: 4 x 4." },
+        { q: "Qual a raiz quadrada de 49 (√49)?", a: "7", hint: "Dica: 7 x 7 = ?" },
+        { q: "Quanto é 3<span class='exp'>3</span>?", a: "27", hint: "Dica: 3 x 3 x 3." },
+        { q: "Qual o valor de √100?", a: "10", hint: "Dica: 10 x 10 = 100." },
+        { q: "Quanto é 10<span class='exp'>3</span>?", a: "1000", hint: "Dica: 10 x 10 x 10. Em potências de 10, o expoente indica o número de zeros." },
+        { q: "Qual a raiz quadrada de 1 (√1)?", a: "1", hint: "Dica: 1 x 1 = 1." },
+        { q: "Quanto é 2<span class='exp'>4</span>?", a: "16", hint: "Dica: 2 x 2 x 2 x 2." },
+        { q: "Qual o valor de 6<span class='exp'>2</span>?", a: "36", hint: "Dica: 6 x 6." },
+        { q: "Quanto é √64?", a: "8", hint: "Dica: 8 x 8 = 64." },
+        { q: "Qual o valor de 0<span class='exp'>5</span>?", a: "0", hint: "Dica: 0 x 0 x 0 x 0 x 0." },
+        { q: "Quanto é √16?", a: "4", hint: "Dica: 4 x 4 = 16." },
+        { q: "Qual o valor de 9<span class='exp'>1</span>?", a: "9", hint: "Dica: Todo número elevado a 1 é ele mesmo." },
+        { q: "Quanto é √25?", a: "5", hint: "Dica: 5 x 5 = 25." },
+        { q: "Qual o valor de 2<span class='exp'>5</span>?", a: "32", hint: "Dica: 2x2=4, 4x2=8, 8x2=16, 16x2=?" }
+    ];
+
+    const container = document.getElementById('quiz-container');
+
+    questions.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <span class="question-text"><b>Questão ${index + 1}:</b> ${item.q}</span>
+            <input type="number" id="input-${index}" placeholder="Sua resposta...">
+            <button onclick="check(${index})">Verificar</button>
+            <div id="feedback-${index}" class="feedback"></div>
+        `;
+        container.appendChild(card);
+    });
+
+    function check(i) {
+        const val = document.getElementById(`input-${i}`).value.trim();
+        const f = document.getElementById(`feedback-${i}`);
+        f.style.display = "block";
+        
+        if(val === questions[i].a) {
+            f.innerHTML = "✅ <b>Correto!</b> Potência dominada.";
+            f.className = "feedback correct";
+        } else {
+            f.innerHTML = "❌ <b>Tente novamente.</b> " + questions[i].hint;
+            f.className = "feedback wrong";
+        }
+    }
+</script>
+
+</body>
+</html>
