@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operações: Nível A (Iniciante)</title>
+    <style>
+        :root { 
+            --bg: #0d1117; 
+            --card: #161b22; 
+            --primary: #58a6ff; 
+            --success: #3fb950; 
+            --error: #f85149; 
+            --text: #c9d1d9; 
+            --text-dim: #8b949e;
+            --border: #30363d;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            padding: 20px; 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container { width: 100%; max-width: 600px; }
+
+        .nav-back { 
+            display: inline-block; 
+            margin-bottom: 20px; 
+            color: var(--primary); 
+            text-decoration: none; 
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        header { text-align: center; margin-bottom: 30px; }
+        
+        h1 { 
+            color: var(--success); 
+            font-size: 1.8rem; 
+            margin-bottom: 10px;
+        }
+
+        .card { 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 20px; 
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+
+        .question-text { font-size: 1.1rem; margin-bottom: 15px; display: block; }
+
+        input { 
+            background: #0d1117; 
+            border: 1px solid var(--border); 
+            color: white; 
+            padding: 12px; 
+            border-radius: 8px; 
+            width: 100%; 
+            box-sizing: border-box; 
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--primary); }
+
+        button { 
+            background: var(--success); 
+            border: none; 
+            padding: 12px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            color: white; 
+            width: 100%; 
+            margin-top: 12px;
+        }
+
+        button:hover { opacity: 0.9; }
+
+        .feedback { 
+            margin-top: 15px; 
+            padding: 12px; 
+            border-radius: 8px; 
+            display: none; 
+            font-size: 0.9rem; 
+            line-height: 1.4;
+        }
+
+        .correct { background: rgba(63, 185, 80, 0.1); color: var(--success); border: 1px solid var(--success); }
+        .wrong { background: rgba(248, 81, 73, 0.1); color: var(--error); border: 1px solid var(--error); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" class="nav-back">← Voltar ao Menu</a>
+    
+    <header>
+        <h1>Operações Básicas</h1>
+        <p style="color: var(--text-dim)">Nível A: Iniciante</p>
+    </header>
+    
+    <div id="quiz-container"></div>
+</div>
+
+<script>
+    const questions = [
+        { q: "Quanto é 15 + 27?", a: "42", hint: "Dica: 15 + 20 = 35. Depois some o 7." },
+        { q: "Quanto é 50 - 18?", a: "32", hint: "Dica: 50 - 10 = 40. Agora tire 8." },
+        { q: "Qual o resultado de 7 x 8?", a: "56", hint: "Dica: Tabuada básica. 7 vezes 8." },
+        { q: "Quanto é 81 ÷ 9?", a: "9", hint: "Dica: Pense na tabuada do 9. 9 x ? = 81." },
+        { q: "Calcule: 100 - 35 + 10", a: "75", hint: "Dica: Primeiro diminua 35 de 100 (65), depois some 10." },
+        { q: "Quanto é 12 x 3?", a: "36", hint: "Dica: É o mesmo que 12 + 12 + 12." },
+        { q: "Qual o dobro de 45?", a: "90", hint: "Dica: Dobro significa multiplicar por 2." },
+        { q: "Quanto é a metade de 150?", a: "75", hint: "Dica: Metade significa dividir por 2." },
+        { q: "Calcule: -5 + 8", a: "3", hint: "Dica: Você deve 5 e pagou 8. Quanto sobrou?" },
+        { q: "Quanto é -10 - 5?", a: "-15", hint: "Dica: Sinais iguais? Some os números e mantenha o sinal." },
+        { q: "Qual o valor de 4 x 0?", a: "0", hint: "Dica: Todo número multiplicado por zero é..." },
+        { q: "Quanto é 1000 ÷ 10?", a: "100", hint: "Dica: Na divisão por 10, basta cortar um zero." },
+        { q: "Calcule: 2 + 3 x 5", a: "17", hint: "Dica: Regra de ouro! Multiplicação primeiro, depois a soma." },
+        { q: "Quanto é 25 + 25 + 25 + 25?", a: "100", hint: "Dica: Pense em 4 moedas de 25 centavos." },
+        { q: "Qual o resultado de 60 ÷ 5?", a: "12", hint: "Dica: Pense que 10 x 5 = 50. Faltam 10 (2 x 5)." },
+        { q: "Quanto é 14 - (-2)?", a: "16", hint: "Dica: Menos com menos vira MAIS. 14 + 2." },
+        { q: "Calcule: 9 x 4", a: "36", hint: "Dica: Tabuada do 9." },
+        { q: "Quanto é 100 menos 1?", a: "99", hint: "Dica: O antecessor imediato de 100." },
+        { q: "Qual o triplo de 15?", a: "45", hint: "Dica: Triplo significa multiplicar por 3." },
+        { q: "Quanto é 0 ÷ 5?", a: "0", hint: "Dica: Se você não tem nada para dividir, ninguém recebe nada." }
+    ];
+
+    const container = document.getElementById('quiz-container');
+
+    questions.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <span class="question-text"><b>Questão ${index + 1}:</b> ${item.q}</span>
+            <input type="number" id="input-${index}" placeholder="Sua resposta...">
+            <button onclick="check(${index})">Verificar</button>
+            <div id="feedback-${index}" class="feedback"></div>
+        `;
+        container.appendChild(card);
+    });
+
+    function check(i) {
+        const val = document.getElementById(`input-${i}`).value.trim();
+        const f = document.getElementById(`feedback-${i}`);
+        f.style.display = "block";
+        
+        if(val == questions[i].a) {
+            f.innerHTML = "✅ <b>Correto!</b> Mandou bem.";
+            f.className = "feedback correct";
+        } else {
+            f.innerHTML = "❌ <b>Quase lá...</b> " + questions[i].hint;
+            f.className = "feedback wrong";
+        }
+    }
+</script>
+
+</body>
+</html>
