@@ -3,102 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Módulo 1: Operações Básicas</title>
+    <title>Operações: Nível C (Desafio ENEM)</title>
     <style>
-        :root {
-            --bg: #0d1117;
-            --card: #161b22;
-            --primary: #58a6ff;
-            --text: #c9d1d9;
-            --success: #238636;
-            --error: #da3633;
-            --warning: #d29922;
+        :root { 
+            --bg: #0d1117; 
+            --card: #161b22; 
+            --primary: #58a6ff; 
+            --success: #3fb950; 
+            --error: #f85149; 
+            --text: #c9d1d9; 
+            --text-dim: #8b949e;
+            --border: #30363d;
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            padding: 20px;
+        
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            padding: 20px; 
             margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .container { max-width: 800px; margin: auto; }
+        .container { width: 100%; max-width: 650px; }
 
-        .nav-back {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: var(--primary);
-            text-decoration: none;
+        .nav-back { 
+            display: inline-block; 
+            margin-bottom: 20px; 
+            color: var(--primary); 
+            text-decoration: none; 
             font-weight: bold;
-        }
-
-        .header-module {
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 10px;
-            margin-bottom: 30px;
-        }
-
-        .card {
-            background: var(--card);
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            padding: 25px;
-            margin-bottom: 25px;
-        }
-
-        h2 { color: var(--primary); margin-top: 0; }
-
-        .teoria-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            background: #0d1117;
-            padding: 15px;
-            border-radius: 6px;
             font-size: 0.9rem;
         }
 
-        .question-box { border-top: 1px solid #30363d; padding-top: 20px; margin-top: 20px; }
-
-        .exp { background: #21262d; padding: 5px 10px; border-radius: 4px; font-family: monospace; }
-
-        input {
-            background: #0d1117;
-            border: 1px solid #30363d;
-            color: white;
-            padding: 12px;
-            border-radius: 6px;
-            width: 100%;
-            max-width: 250px;
-            margin: 15px 0;
-            font-size: 1.1rem;
+        header { text-align: center; margin-bottom: 30px; }
+        
+        h1 { 
+            color: var(--error); 
+            font-size: 1.8rem; 
+            margin-bottom: 10px;
         }
 
-        button {
-            background: var(--primary);
-            color: #0d1117;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
+        .card { 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 24px; 
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
-        button:hover { filter: brightness(1.2); }
-
-        .feedback {
-            margin-top: 15px;
-            padding: 15px;
-            border-radius: 6px;
-            display: none;
-            border-left: 5px solid;
+        .question-text { 
+            font-size: 1.05rem; 
+            line-height: 1.6;
+            margin-bottom: 15px; 
+            display: block; 
         }
 
-        .correct { background: #1a351f; border-color: var(--success); color: #34d399; }
-        .wrong { background: #351a1a; border-color: var(--error); color: #f87171; }
+        input { 
+            background: #0d1117; 
+            border: 1px solid var(--border); 
+            color: white; 
+            padding: 12px; 
+            border-radius: 8px; 
+            width: 100%; 
+            box-sizing: border-box; 
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--error); }
+
+        button { 
+            background: var(--error); 
+            border: none; 
+            padding: 12px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            color: white; 
+            width: 100%; 
+            margin-top: 12px;
+            font-size: 1rem;
+        }
+
+        button:hover { opacity: 0.9; }
+
+        .feedback { 
+            margin-top: 15px; 
+            padding: 12px; 
+            border-radius: 8px; 
+            display: none; 
+            font-size: 0.9rem; 
+            line-height: 1.4;
+        }
+
+        .correct { background: rgba(63, 185, 80, 0.1); color: var(--success); border: 1px solid var(--success); }
+        .wrong { background: rgba(248, 81, 73, 0.1); color: var(--error); border: 1px solid var(--error); }
     </style>
 </head>
 <body>
@@ -106,108 +109,62 @@
 <div class="container">
     <a href="index.html" class="nav-back">← Voltar ao Menu</a>
     
-    <div class="header-module">
-        <h1>Módulo 1: Operações Básicas</h1>
-        <p>A base onde 80% dos erros acontecem. Domine a hierarquia e o sinal.</p>
-    </div>
-
-    <div class="card">
-        <h2>💡 Guia de Sobrevivência</h2>
-        <div class="teoria-grid">
-            <div>
-                <strong>A Hierarquia (PEMDAS)</strong><br>
-                1. Parênteses <br>
-                2. Expoentes <br>
-                3. Mult/Div (Esq -> Dir) <br>
-                4. Soma/Sub (Esq -> Dir)
-            </div>
-            <div>
-                <strong>Regra de Sinais</strong><br>
-                • <span class="exp">+</span> com <span class="exp">+</span> = <span class="exp">+</span> <br>
-                • <span class="exp">-</span> com <span class="exp">-</span> = <span class="exp">+</span> <br>
-                • Diferentes = <span class="exp">-</span> <br>
-                <em>(Na mult/div)</em>
-            </div>
-        </div>
-        <p style="font-size: 0.85rem; color: var(--warning); margin-top: 10px;">
-            ⚠️ <strong>Dica Pro:</strong> 1000 - 467? Faça 999 - 466. É mais rápido e o resultado é o mesmo!
-        </p>
-    </div>
-
-    <div class="card question-box">
-        <h3>Desafio 01: A Ordem dos Fatores</h3>
-        <p>Qual o valor exato da expressão abaixo? <br>
-        <code style="font-size: 1.4rem;">45 + 5 × (12 ÷ 3) - 20</code></p>
-        <input type="number" id="q1" placeholder="Sua resposta...">
-        <button onclick="checkQ1()">Validar Resposta</button>
-        <div id="f1" class="feedback"></div>
-    </div>
-
-    <div class="card question-box">
-        <h3>Desafio 02: Logística e Distribuição</h3>
-        <p>Um armazém recebeu 1.200 caixas. <br>
-        - Na segunda, saíram 150 caixas. <br>
-        - Na terça, saiu o dobro de segunda. <br>
-        - Na quarta, entraram 200 novas caixas. <br>
-        Quantas caixas estão no armazém agora?</p>
-        <input type="number" id="q2" placeholder="Sua resposta...">
-        <button onclick="checkQ2()">Validar Resposta</button>
-        <div id="f2" class="feedback"></div>
-    </div>
-
-    <div class="card question-box">
-        <h3>Desafio 03: O Perigo dos Sinais</h3>
-        <p>Resolva: <br>
-        <code style="font-size: 1.4rem;">(-15) + (-5) × (-4) + 10</code></p>
-        <input type="number" id="q3" placeholder="Sua resposta...">
-        <button onclick="checkQ3()">Validar Resposta</button>
-        <div id="f3" class="feedback"></div>
-    </div>
-
+    <header>
+        <h1>Operações: Desafio ENEM</h1>
+        <p style="color: var(--text-dim)">Nível C: Interpretação e Lógica</p>
+    </header>
+    
+    <div id="quiz-container"></div>
 </div>
 
 <script>
-    function checkQ1() {
-        const val = document.getElementById('q1').value;
-        const f = document.getElementById('f1');
-        f.style.display = "block";
-        if(val == 45) {
-            f.innerHTML = "✅ <b>Correto!</b> Passo a passo: (12÷3)=4 -> 5×4=20 -> 45+20-20 = 45.";
-            f.className = "feedback correct";
-        } else if(val == 180) {
-            f.innerHTML = "❌ <b>Erro de Ordem!</b> Você somou 45+5 primeiro. Lembre-se: Parênteses e Multiplicação vêm antes da soma!";
-            f.className = "feedback wrong";
-        } else {
-            f.innerHTML = "❌ <b>Incorreto.</b> Resolva primeiro os parênteses, depois multiplique o resultado por 5.";
-            f.className = "feedback wrong";
-        }
-    }
+    const questions = [
+        { q: "Uma loja oferece uma promoção 'Leve 4 e Pague 3'. Se cada produto custa R$ 20,00, qual o valor real de cada unidade para quem leva as 4?", a: "15", hint: "Calcule o custo de 3 produtos e divida pelo total de 4 levados." },
+        { q: "Uma torneira despeja 15 litros de água por minuto em um tanque. Quantos litros ela despejará em 2 horas e meia?", a: "2250", hint: "Converta as horas em minutos (150 min) e multiplique pela vazão." },
+        { q: "Um mapa utiliza a escala 1:100.000. Se a distância entre duas cidades no mapa é de 7 cm, qual a distância real em quilômetros?", a: "7", hint: "Multiplique 7 por 100.000 e converta centímetros para quilômetros." },
+        { q: "O saldo bancário de uma empresa era de -R$ 1.200,00. Após um depósito de R$ 5.000,00 e o pagamento de uma conta de R$ 1.800,00, qual o saldo final?", a: "2000", hint: "Realize a soma e a subtração respeitando os sinais (-1200 + 5000 - 1800)." },
+        { q: "Carlos comprou 20 calculadoras por R$ 400,00. Ele deseja lucrar R$ 5,00 em cada uma na revenda. Por quanto ele deve vender cada unidade?", a: "25", hint: "Ache o preço de custo unitário (400/20) e some o lucro desejado." },
+        { q: "Um carro consome 1 litro de combustível para cada 12 km. Se o tanque tem 45 litros e está com apenas 1/3 da capacidade, quantos km ele ainda percorre?", a: "180", hint: "Calcule quantos litros há no tanque (1/3 de 45) e multiplique pelo consumo." },
+        { q: "Uma escada possui 25 degraus, cada um com 18 cm de altura. Qual a altura total da escada em metros?", a: "4.5", hint: "Multiplique a quantidade de degraus pela altura e converta cm para metros." },
+        { q: "Em uma partida de videogame, você ganha 50 pontos por inimigo derrotado e perde 20 por dano sofrido. Se derrotou 12 inimigos e sofreu 8 danos, qual sua pontuação?", a: "440", hint: "(12 x 50) - (8 x 20)." },
+        { q: "Um elevador suporta carga máxima de 500 kg. Se 6 pessoas com média de 75 kg entraram, quantos quilos ainda restam para o limite?", a: "50", hint: "Subtraia o peso total das pessoas (6 x 75) da carga máxima." },
+        { q: "Uma fábrica produz 180 peças por hora. Quantas peças serão produzidas em um turno de 6 horas e 30 minutos?", a: "1170", hint: "Multiplique a produção por 6,5 horas." },
+        { q: "Um prêmio de R$ 2.400,00 será dividido entre dois ganhadores. O primeiro deve receber o triplo do segundo. Quanto o segundo recebe?", a: "600", hint: "A conta é 3x + x = 2400. Ache o valor de x." },
+        { q: "Um relógio atrasa 12 segundos a cada hora. Após 5 dias inteiros, quantos minutos ele terá atrasado no total?", a: "24", hint: "12 segundos x 24h x 5 dias. Depois divida por 60." },
+        { q: "Se 8 kg de carne custam R$ 256,00, qual o preço de 3 kg dessa mesma carne?", a: "96", hint: "Descubra o valor de 1 kg e multiplique por 3." },
+        { q: "A temperatura em uma cidade era de 5°C e caiu 9°C durante a madrugada. Qual a temperatura final?", a: "-4", hint: "5 - 9." },
+        { q: "Um ciclista mantém velocidade média de 22 km/h. Quanto tempo, em horas, ele levará para percorrer 132 km?", a: "6", hint: "Divida a distância total pela velocidade." },
+        { q: "Uma caixa de bombons custa R$ 15,00. Se comprar 4 caixas, a loja dá R$ 10,00 de desconto no valor total. Quanto o cliente pagará?", a: "50", hint: "(4 x 15) - 10." },
+        { q: "Um livro tem 350 páginas. Se ler 25 páginas por dia, em quantos dias terminarei o livro?", a: "14", hint: "Divisão simples de 350 por 25." },
+        { q: "Em um cercado há galinhas e coelhos, totalizando 20 animais. Se há 12 galinhas, qual o total de patas de coelhos no cercado?", a: "32", hint: "Ache o número de coelhos (20-12) e multiplique por 4." },
+        { q: "Um operário gasta 15 minutos para montar uma peça. Quantas peças ele montará em 4 horas de trabalho?", a: "16", hint: "Veja quantos períodos de 15 min cabem em 1h (4) e multiplique por 4 horas." },
+        { q: "Uma dívida de R$ 1.500,00 foi paga em 6 parcelas iguais e sem juros. Qual o valor de cada parcela?", a: "250", hint: "Divida o total pelo número de parcelas." }
+    ];
 
-    function checkQ2() {
-        const val = document.getElementById('q2').value;
-        const f = document.getElementById('f2');
-        f.style.display = "block";
-        if(val == 950) {
-            f.innerHTML = "✅ <b>Perfeito!</b> Conta: 1200 - 150 (Seg) - 300 (Ter) + 200 (Qua) = 950.";
-            f.className = "feedback correct";
-        } else {
-            f.innerHTML = "❌ <b>Atenção aos detalhes.</b> Verifique se você dobrou o valor de segunda corretamente (300) e se somou as caixas que entraram na quarta.";
-            f.className = "feedback wrong";
-        }
-    }
+    const container = document.getElementById('quiz-container');
 
-    function checkQ3() {
-        const val = document.getElementById('q3').value;
-        const f = document.getElementById('f3');
+    questions.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <span class="question-text"><b>${index + 1}.</b> ${item.q}</span>
+            <input type="number" step="any" id="input-${index}" placeholder="Sua resposta...">
+            <button onclick="check(${index})">Verificar Resposta</button>
+            <div id="feedback-${index}" class="feedback"></div>
+        `;
+        container.appendChild(card);
+    });
+
+    function check(i) {
+        const val = document.getElementById(`input-${i}`).value.trim();
+        const f = document.getElementById(`feedback-${i}`);
         f.style.display = "block";
-        if(val == 15) {
-            f.innerHTML = "✅ <b>Mestre dos Sinais!</b> (-5) × (-4) é +20. Então fica: -15 + 20 + 10 = 15.";
+        
+        if(parseFloat(val) === parseFloat(questions[i].a)) {
+            f.innerHTML = "✅ <b>Correto!</b> Ótimo raciocínio.";
             f.className = "feedback correct";
-        } else if(val == -25) {
-            f.innerHTML = "❌ <b>Cuidado!</b> (-5) vezes (-4) resulta em um número POSITIVO (+20). Menos com menos dá mais na multiplicação.";
-            f.className = "feedback wrong";
         } else {
-            f.innerHTML = "❌ <b>Incorreto.</b> Lembre-se da hierarquia: multiplique os números negativos primeiro.";
+            f.innerHTML = "❌ <b>Ainda não...</b> " + questions[i].hint;
             f.className = "feedback wrong";
         }
     }
@@ -215,3 +172,4 @@
 
 </body>
 </html>
+
