@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Razão e Proporção: Nível A</title>
+    <style>
+        :root { 
+            --bg: #0d1117; 
+            --card: #161b22; 
+            --primary: #58a6ff; 
+            --success: #3fb950; 
+            --error: #f85149; 
+            --text: #c9d1d9; 
+            --text-dim: #8b949e;
+            --border: #30363d;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            padding: 20px; 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container { width: 100%; max-width: 600px; }
+
+        .nav-back { 
+            display: inline-block; 
+            margin-bottom: 20px; 
+            color: var(--primary); 
+            text-decoration: none; 
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        header { text-align: center; margin-bottom: 30px; }
+        
+        h1 { 
+            color: var(--success); 
+            font-size: 1.8rem; 
+            margin-bottom: 10px;
+        }
+
+        .card { 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 20px; 
+            margin-bottom: 20px;
+        }
+
+        .question-text { font-size: 1.1rem; margin-bottom: 15px; display: block; line-height: 1.5; }
+
+        input { 
+            background: #0d1117; 
+            border: 1px solid var(--border); 
+            color: white; 
+            padding: 12px; 
+            border-radius: 8px; 
+            width: 100%; 
+            box-sizing: border-box; 
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--success); }
+
+        button { 
+            background: var(--success); 
+            border: none; 
+            padding: 12px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            color: white; 
+            width: 100%; 
+            margin-top: 12px;
+        }
+
+        button:hover { opacity: 0.9; }
+
+        .feedback { 
+            margin-top: 15px; 
+            padding: 12px; 
+            border-radius: 8px; 
+            display: none; 
+            font-size: 0.9rem; 
+            line-height: 1.4;
+        }
+
+        .correct { background: rgba(63, 185, 80, 0.1); color: var(--success); border: 1px solid var(--success); }
+        .wrong { background: rgba(248, 81, 73, 0.1); color: var(--error); border: 1px solid var(--error); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" class="nav-back">← Voltar ao Menu</a>
+    
+    <header>
+        <h1>Razão e Proporção</h1>
+        <p style="color: var(--text-dim)">Nível A: Conceitos e Proporções Diretas</p>
+    </header>
+    
+    <div id="quiz-container"></div>
+</div>
+
+<script>
+    const questions = [
+        { q: "Qual a razão entre 10 e 20, na forma simplificada?", a: "1/2", hint: "Dica: Divida ambos por 10." },
+        { q: "Se 2 canetas custam R$ 6,00, quanto custa 1 caneta?", a: "3", hint: "Dica: Divida o valor total pela quantidade." },
+        { q: "Em uma sala há 15 meninos e 15 meninas. Qual a razão entre meninos e meninas?", a: "1/1", hint: "Dica: Números iguais resultam na razão 1 para 1." },
+        { q: "Se um carro percorre 10 km com 1 litro, quantos km ele percorre com 5 litros?", a: "50", hint: "Dica: Multiplique 10 por 5." },
+        { q: "Qual a razão simplificada de 20 para 40?", a: "1/2", hint: "Dica: É a mesma coisa que 2/4." },
+        { q: "Uma escala de um mapa é 1:100. Isso significa que 1 cm no mapa vale quantos cm na vida real?", a: "100", hint: "Dica: O segundo número indica o valor real." },
+        { q: "Se 3 maçãs custam R$ 9,00, quanto custarão 5 maçãs?", a: "15", hint: "Dica: Descubra o valor de uma (3) e multiplique por 5." },
+        { q: "Qual o valor de X na proporção: 1/2 = X/10?", a: "5", hint: "Dica: Multiplique cruzado: 2X = 10." },
+        { q: "Em uma mistura, usamos 2 copos de água para 1 de suco. Qual a razão de água para suco?", a: "2/1", hint: "Dica: A ordem importa! Água (2) vem primeiro." },
+        { q: "Se 4 pães custam R$ 2,00, quanto custam 8 pães?", a: "4", hint: "Dica: O dobro da quantidade é o dobro do preço." },
+        { q: "Simplifique a razão 5/25.", a: "1/5", hint: "Dica: Divida ambos por 5." },
+        { q: "Em um mapa escala 1:50, um objeto de 2 cm no mapa tem quantos cm no real?", a: "100", hint: "Dica: 2 vezes 50." },
+        { q: "Se X/3 = 4/6, qual o valor de X?", a: "2", hint: "Dica: 4/6 simplificado é 2/3." },
+        { q: "Qual a razão entre 1 metro (100 cm) e 50 cm?", a: "2/1", hint: "Dica: Use a mesma unidade (cm)." },
+        { q: "Se uma receita para 2 pessoas usa 4 ovos, quantos ovos usa para 4 pessoas?", a: "8", hint: "Dica: Dobre a receita." },
+        { q: "A razão de acertos de um aluno foi 8 de 10. Simplifique essa razão.", a: "4/5", hint: "Dica: Divida 8 e 10 por 2." },
+        { q: "Se 5 camisetas custam R$ 100,00, qual o valor unitário?", a: "20", hint: "Dica: 100 dividido por 5." },
+        { q: "Qual o valor de X em 2/5 = 4/X?", a: "10", hint: "Dica: 2 virou 4 (dobrou), então 5 vira...?" },
+        { q: "A razão entre a base e a altura de um retângulo é 3:2. Se a base é 6, qual a altura?", a: "4", hint: "Dica: Se 3 virou 6 (x2), o 2 vira...?" },
+        { q: "Se para cada 10 km eu gasto 1 litro, quantos litros gasto em 100 km?", a: "10", hint: "Dica: Divida 100 por 10." }
+    ];
+
+    const container = document.getElementById('quiz-container');
+
+    questions.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <span class="question-text"><b>${index + 1}.</b> ${item.q}</span>
+            <input type="text" id="input-${index}" placeholder="Sua resposta (ex: 5 ou 1/2)...">
+            <button onclick="check(${index})">Verificar</button>
+            <div id="feedback-${index}" class="feedback"></div>
+        `;
+        container.appendChild(card);
+    });
+
+    function check(i) {
+        const val = document.getElementById(`input-${i}`).value.trim().toLowerCase();
+        const f = document.getElementById(`feedback-${i}`);
+        f.style.display = "block";
+        
+        if(val === questions[i].a.toLowerCase()) {
+            f.innerHTML = "✅ <b>Correto!</b> Proporção mantida.";
+            f.className = "feedback correct";
+        } else {
+            f.innerHTML = "❌ <b>Tente novamente.</b> " + questions[i].hint;
+            f.className = "feedback wrong";
+        }
+    }
+</script>
+
+</body>
+</html>
