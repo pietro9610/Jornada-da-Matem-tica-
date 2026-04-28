@@ -3,146 +3,304 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jornada Matemática - Master</title>
+    <title>Jornada Matemática Pro | Dashboard</title>
     <style>
         :root {
-            --bg: #0a0c10;
+            --bg: #0d1117;
             --card-bg: #161b22;
-            --primary: #58a6ff;
-            --secondary: #238636;
-            --text-main: #f0f6fc;
-            --text-dim: #8b949e;
             --border: #30363d;
+            --text-main: #c9d1d9;
+            --text-dim: #8b949e;
+            --primary: #58a6ff;
+            --lvl-a: #3fb950;
+            --lvl-b: #d29922;
+            --lvl-c: #f85149;
+            --accent: linear-gradient(135deg, #58a6ff 0%, #bc8cff 100%);
         }
 
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg);
             color: var(--text-main);
             margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
         }
 
         header {
             width: 100%;
-            padding: 40px 20px;
+            padding: 50px 20px;
             text-align: center;
-            background: linear-gradient(180deg, #161b22 0%, #0a0c10 100%);
+            background: radial-gradient(circle at top, #1c2128 0%, #0d1117 100%);
             border-bottom: 1px solid var(--border);
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
-        h1 { margin: 0; font-size: 2rem; color: var(--primary); }
-        p.subtitle { color: var(--text-dim); margin-top: 10px; }
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            background: var(--accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
 
-        .menu-container {
-            width: 90%;
-            max-width: 800px;
+        header p {
+            color: var(--text-dim);
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1100px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
             padding-bottom: 50px;
         }
 
         .module-card {
-            background-color: var(--card-bg);
+            background: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            text-decoration: none;
-            color: inherit;
-            transition: transform 0.2s, border-color 0.2s;
+            border-radius: 16px;
+            padding: 24px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            gap: 15px;
         }
 
         .module-card:hover {
-            transform: translateY(-5px);
             border-color: var(--primary);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            transform: translateY(-5px);
         }
 
-        .module-number { font-size: 0.8rem; font-weight: bold; color: var(--primary); text-transform: uppercase; margin-bottom: 10px; }
-        .module-title { font-size: 1.25rem; margin-bottom: 10px; }
-        .module-desc { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 20px; }
+        .module-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 15px;
+            margin-bottom: 5px;
+        }
 
-        .status-badge {
-            font-size: 0.75rem;
-            padding: 4px 10px;
-            border-radius: 20px;
-            background: rgba(35, 134, 54, 0.15);
-            color: #3fb950;
-            align-self: flex-start;
-            border: 1px solid rgba(63, 185, 80, 0.3);
+        .module-number {
+            background: var(--border);
+            color: var(--primary);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .module-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .level-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-lvl {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 500;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+        }
+
+        .btn-lvl:hover {
+            background: rgba(255,255,255,0.08);
+        }
+
+        .lvl-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            padding: 4px 8px;
+            border-radius: 5px;
+        }
+
+        /* Cores dos Níveis */
+        .lvl-a { border-left: 4px solid var(--lvl-a); }
+        .lvl-a .lvl-tag { background: rgba(63, 185, 80, 0.15); color: var(--lvl-a); }
+
+        .lvl-b { border-left: 4px solid var(--lvl-b); }
+        .lvl-b .lvl-tag { background: rgba(210, 153, 34, 0.15); color: var(--lvl-b); }
+
+        .lvl-c { border-left: 4px solid var(--lvl-c); }
+        .lvl-c .lvl-tag { background: rgba(248, 81, 73, 0.15); color: var(--lvl-c); }
+
+        footer {
+            margin-top: auto;
+            padding: 30px;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.8rem; }
+            .container { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Jornada Matemática</h1>
-        <p class="subtitle">Domine os números, conquiste o seu futuro.</p>
+        <h1>Jornada Matemática Pro</h1>
+        <p>Seu roadmap completo para dominar o ENEM</p>
     </header>
 
-    <main class="menu-container">
+    <div class="container">
         
-        <a href="operacoes.html" class="module-card">
-            <div>
-                <span class="module-number">Módulo 01</span>
-                <h2 class="module-title">Operações Básicas</h2>
-                <p class="module-desc">Soma, subtração, multiplicação e divisão com foco em agilidade mental.</p>
+        <div class="module-card">
+            <div class="module-header">
+                <div class="module-number">01</div>
+                <div class="module-title">Operações Básicas</div>
             </div>
-            <span class="status-badge">Disponível</span>
-        </a>
-
-        <a href="fracoes.html" class="module-card">
-            <div>
-                <span class="module-number">Módulo 02</span>
-                <h2 class="module-title">Frações</h2>
-                <p class="module-desc">MMC, simplificação e operações com partes de um todo.</p>
+            <div class="level-group">
+                <a href="operacoes_facil.html" class="btn-lvl lvl-a">
+                    <span>Nível Iniciante</span>
+                    <span class="lvl-tag">Nível A</span>
+                </a>
+                <a href="operacoes_medio.html" class="btn-lvl lvl-b">
+                    <span>Cálculos e Sinais</span>
+                    <span class="lvl-tag">Nível B</span>
+                </a>
+                <a href="operacoes_dificil.html" class="btn-lvl lvl-c">
+                    <span>Desafio ENEM</span>
+                    <span class="lvl-tag">Nível C</span>
+                </a>
             </div>
-            <span class="status-badge">Disponível</span>
-        </a>
+        </div>
 
-        <a href="potencia.html" class="module-card">
-            <div>
-                <span class="module-number">Módulo 03</span>
-                <h2 class="module-title">Potência e Raiz</h2>
-                <p class="module-desc">Propriedades dos expoentes e a lógica reversa da radiciação.</p>
+        <div class="module-card">
+            <div class="module-header">
+                <div class="module-number">02</div>
+                <div class="module-title">Frações</div>
             </div>
-            <span class="status-badge">Disponível</span>
-        </a>
-
-        <a href="porcentagem.html" class="module-card">
-            <div>
-                <span class="module-number">Módulo 04</span>
-                <h2 class="module-title">Porcentagem</h2>
-                <p class="module-desc">Matemática financeira aplicada ao dia a dia.</p>
+            <div class="level-group">
+                <a href="fracoes_facil.html" class="btn-lvl lvl-a">
+                    <span>Conceitos Visuais</span>
+                    <span class="lvl-tag">Nível A</span>
+                </a>
+                <a href="fracoes_medio.html" class="btn-lvl lvl-b">
+                    <span>Operações e MMC</span>
+                    <span class="lvl-tag">Nível B</span>
+                </a>
+                <a href="fracoes_dificil.html" class="btn-lvl lvl-c">
+                    <span>Problemas Complexos</span>
+                    <span class="lvl-tag">Nível C</span>
+                </a>
             </div>
-            <span class="status-badge">Disponível</span>
-        </a>
+        </div>
 
-        <a href="proporcao.html" class="module-card">
-            <div>
-                <span class="module-number">Módulo 05</span>
-                <h2 class="module-title">Razão e Proporção</h2>
-                <p class="module-desc">Regra de três e comparações entre diferentes grandezas.</p>
+        <div class="module-card">
+            <div class="module-header">
+                <div class="module-number">03</div>
+                <div class="module-title">Potência e Raiz</div>
             </div>
-            <span class="status-badge">Disponível</span>
-        </a>
-
-        <a href="equacoes.html" class="module-card">
-            <div>
-                <span class="module-number">Módulo 06</span>
-                <h2 class="module-title">Interpretação e Equações</h2>
-                <p class="module-desc">Transforme problemas de texto em linguagem matemática.</p>
+            <div class="level-group">
+                <a href="potencia_facil.html" class="btn-lvl lvl-a">
+                    <span>Regras Básicas</span>
+                    <span class="lvl-tag">Nível A</span>
+                </a>
+                <a href="potencia_medio.html" class="btn-lvl lvl-b">
+                    <span>Notação Científica</span>
+                    <span class="lvl-tag">Nível B</span>
+                </a>
+                <a href="potencia_dificil.html" class="btn-lvl lvl-c">
+                    <span>Aplicações ENEM</span>
+                    <span class="lvl-tag">Nível C</span>
+                </a>
             </div>
-            <span class="status-badge">Disponível</span>
-        </a>
+        </div>
 
-    </main>
+        <div class="module-card">
+            <div class="module-header">
+                <div class="module-number">04</div>
+                <div class="module-title">Porcentagem</div>
+            </div>
+            <div class="level-group">
+                <a href="porcentagem_facil.html" class="btn-lvl lvl-a">
+                    <span>Cálculos de Cabeça</span>
+                    <span class="lvl-tag">Nível A</span>
+                </a>
+                <a href="porcentagem_medio.html" class="btn-lvl lvl-b">
+                    <span>Aumentos e Descontos</span>
+                    <span class="lvl-tag">Nível B</span>
+                </a>
+                <a href="porcentagem_dificil.html" class="btn-lvl lvl-c">
+                    <span>Juros e Finanças</span>
+                    <span class="lvl-tag">Nível C</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="module-card">
+            <div class="module-header">
+                <div class="module-number">05</div>
+                <div class="module-title">Razão e Proporção</div>
+            </div>
+            <div class="level-group">
+                <a href="proporcao_facil.html" class="btn-lvl lvl-a">
+                    <span>Regra de Três Simples</span>
+                    <span class="lvl-tag">Nível A</span>
+                </a>
+                <a href="proporcao_medio.html" class="btn-lvl lvl-b">
+                    <span>Escalas e Divisões</span>
+                    <span class="lvl-tag">Nível B</span>
+                </a>
+                <a href="proporcao_dificil.html" class="btn-lvl lvl-c">
+                    <span>Regra de Três Composta</span>
+                    <span class="lvl-tag">Nível C</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="module-card">
+            <div class="module-header">
+                <div class="module-number">06</div>
+                <div class="module-title">Geometria Básica</div>
+            </div>
+            <div class="level-group">
+                <a href="geometria_facil.html" class="btn-lvl lvl-a">
+                    <span>Áreas e Perímetros</span>
+                    <span class="lvl-tag">Nível A</span>
+                </a>
+                <a href="geometria_medio.html" class="btn-lvl lvl-b">
+                    <span>Volumes de Prismas</span>
+                    <span class="lvl-tag">Nível B</span>
+                </a>
+                <a href="geometria_dificil.html" class="btn-lvl lvl-c">
+                    <span>Geometria no ENEM</span>
+                    <span class="lvl-tag">Nível C</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        &copy; 2026 Sistema de Ensino Adaptativo - Foco Total no Resultado
+    </footer>
+
 </body>
 </html>
