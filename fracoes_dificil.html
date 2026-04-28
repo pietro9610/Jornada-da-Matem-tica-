@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frações: Nível C (Desafio ENEM)</title>
+    <style>
+        :root { 
+            --bg: #0d1117; 
+            --card: #161b22; 
+            --primary: #58a6ff; 
+            --success: #3fb950; 
+            --error: #f85149; 
+            --text: #c9d1d9; 
+            --text-dim: #8b949e;
+            --border: #30363d;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            padding: 20px; 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container { width: 100%; max-width: 650px; }
+
+        .nav-back { 
+            display: inline-block; 
+            margin-bottom: 20px; 
+            color: var(--primary); 
+            text-decoration: none; 
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        header { text-align: center; margin-bottom: 30px; }
+        
+        h1 { 
+            color: var(--error); 
+            font-size: 1.8rem; 
+            margin-bottom: 10px;
+        }
+
+        .card { 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 24px; 
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .question-text { 
+            font-size: 1.05rem; 
+            line-height: 1.6;
+            margin-bottom: 15px; 
+            display: block; 
+        }
+
+        input { 
+            background: #0d1117; 
+            border: 1px solid var(--border); 
+            color: white; 
+            padding: 12px; 
+            border-radius: 8px; 
+            width: 100%; 
+            box-sizing: border-box; 
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--error); }
+
+        button { 
+            background: var(--error); 
+            border: none; 
+            padding: 12px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            color: white; 
+            width: 100%; 
+            margin-top: 12px;
+            font-size: 1rem;
+        }
+
+        button:hover { opacity: 0.9; }
+
+        .feedback { 
+            margin-top: 15px; 
+            padding: 12px; 
+            border-radius: 8px; 
+            display: none; 
+            font-size: 0.9rem; 
+            line-height: 1.4;
+        }
+
+        .correct { background: rgba(63, 185, 80, 0.1); color: var(--success); border: 1px solid var(--success); }
+        .wrong { background: rgba(248, 81, 73, 0.1); color: var(--error); border: 1px solid var(--error); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" class="nav-back">← Voltar ao Menu</a>
+    
+    <header>
+        <h1>Frações: Desafio ENEM</h1>
+        <p style="color: var(--text-dim)">Nível C: Interpretação e Problemas</p>
+    </header>
+    
+    <div id="quiz-container"></div>
+</div>
+
+<script>
+    const questions = [
+        { q: "Um falecido deixou R$ 90.000,00 de herança. A esposa ficou com 1/2 e o restante foi dividido igualmente entre 3 filhos. Quanto cada filho recebeu?", a: "15000", hint: "Calcule a metade (45 mil) e divida o que sobrou por 3." },
+        { q: "O tanque de um caminhão tem capacidade de 120 litros. O marcador indica que ele está com 3/4 de combustível. Quantos litros há no tanque?", a: "90", hint: "Divida 120 por 4 e multiplique o resultado por 3." },
+        { q: "Uma maratona de 42 km foi completada por um atleta. Se ele já percorreu 5/7 da prova, quantos km ainda faltam?", a: "12", hint: "Calcule 2/7 (o que falta) de 42." },
+        { q: "Em uma escola de 800 alunos, 3/8 praticam futebol. Quantos alunos não praticam futebol?", a: "500", hint: "Se 3/8 praticam, 5/8 não praticam. Calcule 5/8 de 800." },
+        { q: "Uma receita de suco utiliza 1/3 de polpa e o restante de água. Para fazer 600 ml de suco, quantos ml de água são necessários?", a: "400", hint: "Água representa 2/3 do total. Calcule 2/3 de 600." },
+        { q: "Misturei 2/5 de um galão de tinta azul com 1/2 galão de tinta branca. Qual a fração total de tinta que tenho agora?", a: "9/10", hint: "Some as frações usando o MMC entre 5 e 2." },
+        { q: "Tenho R$ 200,00. Gastei 1/4 com lanche e 2/5 do que sobrou com transporte. Quanto me restou?", a: "90", hint: "Tire 1/4 de 200 (50), sobram 150. Depois tire 2/5 de 150." },
+        { q: "Um pedreiro construiu 3/10 de um muro no primeiro dia e 2/5 no segundo. Qual fração do muro falta construir?", a: "3/10", hint: "Some 3/10 + 4/10 (que é 2/5) e veja quanto falta para o inteiro." },
+        { q: "Um smartphone custa R$ 1.500,00. Se eu pagar à vista, tenho um desconto de 1/10 do valor. Qual o preço final?", a: "1350", hint: "Calcule 1/10 de 1500 e subtraia do valor original." },
+        { q: "Em um pomar, 4/9 das árvores são laranjeiras. Se há 360 árvores no total, quantas não são laranjeiras?", a: "200", hint: "Calcule 5/9 de 360." },
+        { q: "De um reservatório de água, utilizou-se 1/3 para lavar roupas e 1/6 para limpar o quintal. Qual fração da água ainda resta?", a: "1/2", hint: "Some 1/3 + 1/6 e subtraia de 1 inteiro." },
+        { q: "Qual fração é menor: 2/5 ou 3/8?", a: "3/8", hint: "Transforme em decimais (0,40 vs 0,375) para comparar." },
+        { q: "Simplifique a fração 75/100 até a forma irredutível.", a: "3/4", hint: "Divida ambos os números por 25." },
+        { q: "Quanto é a terça parte da metade de 120?", a: "20", hint: "Calcule a metade (60) e depois divida por 3." },
+        { q: "Um trabalhador gasta 2/5 do salário com aluguel e 1/4 com alimentação. Qual fração do salário sobra para outras despesas?", a: "7/20", hint: "Some 2/5 + 1/4 e veja quanto falta para 20/20." },
+        { q: "Cada garrafa de refrigerante contém 1/4 de litro. Quantas garrafas são necessárias para encher um galão de 5 litros?", a: "20", hint: "Divida 5 por 1/4 (ou multiplique 5 por 4)." },
+        { q: "Comi 2/9 de um bolo e meu irmão comeu 1/3. Qual fração do bolo restou?", a: "4/9", hint: "Transforme 1/3 em 3/9 e some com 2/9. Resta o que falta para 9/9." },
+        { q: "Uma empresa tem 120 funcionários. 2/3 são homens. Quantas são as mulheres?", a: "40", hint: "Mulheres representam 1/3 do total." },
+        { q: "Em uma viagem de 800 km, o motorista parou após percorrer 3/8 do trajeto. Quantos km faltam para chegar?", a: "500", hint: "Faltam 5/8 da viagem. Calcule 5/8 de 800." },
+        { q: "Um pote de balas tem 40 unidades. Se 3/5 das balas são de morango, quantas balas são de outros sabores?", a: "16", hint: "Outros sabores representam 2/5 de 40." }
+    ];
+
+    const container = document.getElementById('quiz-container');
+
+    questions.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <span class="question-text"><b>${index + 1}.</b> ${item.q}</span>
+            <input type="text" id="input-${index}" placeholder="Sua resposta (ex: 1200 ou 3/4)...">
+            <button onclick="check(${index})">Verificar Resposta</button>
+            <div id="feedback-${index}" class="feedback"></div>
+        `;
+        container.appendChild(card);
+    });
+
+    function check(i) {
+        const val = document.getElementById(`input-${i}`).value.trim().toLowerCase();
+        const f = document.getElementById(`feedback-${i}`);
+        f.style.display = "block";
+        
+        // Remove R$, espaços e converte vírgula em ponto para facilitar a checagem
+        const cleanVal = val.replace('r$', '').replace(',', '.').trim();
+        
+        if(cleanVal === questions[i].a.toLowerCase()) {
+            f.innerHTML = "✅ <b>Correto!</b> Mandou muito bem.";
+            f.className = "feedback correct";
+        } else {
+            f.innerHTML = "❌ <b>Quase!</b> " + questions[i].hint;
+            f.className = "feedback wrong";
+        }
+    }
+</script>
+
+</body>
+</html>
+
