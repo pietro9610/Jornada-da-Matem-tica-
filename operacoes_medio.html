@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operações: Nível B (Intermediário)</title>
+    <style>
+        :root { 
+            --bg: #0d1117; 
+            --card: #161b22; 
+            --primary: #58a6ff; 
+            --success: #3fb950; 
+            --error: #f85149; 
+            --warning: #d29922;
+            --text: #c9d1d9; 
+            --text-dim: #8b949e;
+            --border: #30363d;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            padding: 20px; 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container { width: 100%; max-width: 600px; }
+
+        .nav-back { 
+            display: inline-block; 
+            margin-bottom: 20px; 
+            color: var(--primary); 
+            text-decoration: none; 
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        header { text-align: center; margin-bottom: 30px; }
+        
+        h1 { 
+            color: var(--warning); 
+            font-size: 1.8rem; 
+            margin-bottom: 10px;
+        }
+
+        .card { 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 20px; 
+            margin-bottom: 20px;
+        }
+
+        .question-text { font-size: 1.1rem; margin-bottom: 15px; display: block; }
+
+        input { 
+            background: #0d1117; 
+            border: 1px solid var(--border); 
+            color: white; 
+            padding: 12px; 
+            border-radius: 8px; 
+            width: 100%; 
+            box-sizing: border-box; 
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--warning); }
+
+        button { 
+            background: var(--warning); 
+            border: none; 
+            padding: 12px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            color: white; 
+            width: 100%; 
+            margin-top: 12px;
+        }
+
+        button:hover { opacity: 0.9; }
+
+        .feedback { 
+            margin-top: 15px; 
+            padding: 12px; 
+            border-radius: 8px; 
+            display: none; 
+            font-size: 0.9rem; 
+            line-height: 1.4;
+        }
+
+        .correct { background: rgba(63, 185, 80, 0.1); color: var(--success); border: 1px solid var(--success); }
+        .wrong { background: rgba(248, 81, 73, 0.1); color: var(--error); border: 1px solid var(--error); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" class="nav-back">← Voltar ao Menu</a>
+    
+    <header>
+        <h1>Operações Intermediárias</h1>
+        <p style="color: var(--text-dim)">Nível B: Cálculos e Decimais</p>
+    </header>
+    
+    <div id="quiz-container"></div>
+</div>
+
+<script>
+    const questions = [
+        { q: "Quanto é 12,5 + 7,25?", a: "19.75", hint: "Dica: Alinhe a vírgula. 12,50 + 7,25." },
+        { q: "Calcule: 100 - 45,50", a: "54.5", hint: "Dica: Pense em dinheiro. R$ 100,00 menos R$ 45,50." },
+        { q: "Quanto é 0,5 x 20?", a: "10", hint: "Dica: Multiplicar por 0,5 é o mesmo que dividir por 2." },
+        { q: "Qual o resultado de 15 ÷ 0,5?", a: "30", hint: "Dica: Quantas 'metades' cabem em 15 inteiros?" },
+        { q: "Calcule: (10 + 5) x 4", a: "60", hint: "Dica: Resolva primeiro o que está dentro dos parênteses." },
+        { q: "Quanto é 25% de 200?", a: "50", hint: "Dica: 25% é a quarta parte (divida por 4)." },
+        { q: "Calcule: 50 - 2 x 15", a: "20", hint: "Dica: Multiplicação primeiro! 2 x 15 = 30." },
+        { q: "Quanto é 1,2 x 5?", a: "6", hint: "Dica: 12 x 5 = 60. Agora coloque a vírgula." },
+        { q: "Qual o resultado de -12 + (-8)?", a: "-20", hint: "Dica: Você deve 12 e pegou mais 8 emprestado." },
+        { q: "Quanto é (-4) x (-5)?", a: "20", hint: "Dica: Menos vezes menos dá MAIS." },
+        { q: "Calcule: 10 ÷ 4", a: "2.5", hint: "Dica: Use ponto para decimais (ex: 2.5)." },
+        { q: "Quanto é 3 x (10 - 2)?", a: "24", hint: "Dica: Primeiro 10 - 2 = 8. Depois 3 x 8." },
+        { q: "Qual o valor de 2,5 + 2,5 + 2,5?", a: "7.5", hint: "Dica: 2,5 x 3." },
+        { q: "Quanto é 1/4 de 100?", a: "25", hint: "Dica: Divida 100 por 4." },
+        { q: "Calcule: 15 - 20", a: "-5", hint: "Dica: Você tem 15 mas precisa pagar 20." },
+        { q: "Quanto é 0,1 x 100?", a: "10", hint: "Dica: Multiplicar por 0,1 é o mesmo que dividir por 10." },
+        { q: "Qual o dobro de 12,5?", a: "25", hint: "Dica: 12,5 + 12,5." },
+        { q: "Quanto é 45 ÷ 1,5?", a: "30", hint: "Dica: Quantas vezes 1,5 cabe em 45? (Pense em 15 e 450)." },
+        { q: "Calcule: 10 + 5 x 2 - 3", a: "17", hint: "Dica: Primeiro a multiplicação (5x2=10), depois soma e subtrai." },
+        { q: "Quanto é 7,5 - 8?", a: "-0.5", hint: "Dica: O resultado será negativo. 8 é maior que 7,5." }
+    ];
+
+    const container = document.getElementById('quiz-container');
+
+    questions.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <span class="question-text"><b>Questão ${index + 1}:</b> ${item.q}</span>
+            <input type="number" step="0.01" id="input-${index}" placeholder="Sua resposta (use ponto para decimal)...">
+            <button onclick="check(${index})">Verificar</button>
+            <div id="feedback-${index}" class="feedback"></div>
+        `;
+        container.appendChild(card);
+    });
+
+    function check(i) {
+        const val = document.getElementById(`input-${i}`).value.trim();
+        const f = document.getElementById(`feedback-${i}`);
+        f.style.display = "block";
+        
+        // Convertendo para número para evitar erros de string (ex: 2.5 vs 2.50)
+        if(parseFloat(val) === parseFloat(questions[i].a)) {
+            f.innerHTML = "✅ <b>Correto!</b> Você domina os números.";
+            f.className = "feedback correct";
+        } else {
+            f.innerHTML = "❌ <b>Quase!</b> " + questions[i].hint;
+            f.className = "feedback wrong";
+        }
+    }
+</script>
+
+</body>
+</html>
+
