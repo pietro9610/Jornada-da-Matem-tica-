@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Razão e Proporção: Nível C (Difícil)</title>
+    <style>
+        :root { 
+            --bg: #0d1117; 
+            --card: #161b22; 
+            --primary: #58a6ff; 
+            --success: #3fb950; 
+            --error: #f85149; 
+            --text: #c9d1d9; 
+            --text-dim: #8b949e;
+            --border: #30363d;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            padding: 20px; 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container { width: 100%; max-width: 700px; }
+        .nav-back { color: var(--primary); text-decoration: none; font-weight: bold; margin-bottom: 20px; display: block; }
+        
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { color: var(--error); font-size: 1.8rem; margin-bottom: 10px; }
+
+        .card { 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 24px; 
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .question-text { font-size: 1.1rem; line-height: 1.6; margin-bottom: 15px; display: block; color: #ffa657; }
+        
+        .input-group { margin-top: 15px; }
+        
+        input { 
+            background: #0d1117; border: 1px solid var(--border); color: white; 
+            padding: 12px; border-radius: 8px; width: 100%; box-sizing: border-box; 
+            font-size: 1rem; outline: none; transition: border 0.3s;
+        }
+        input:focus { border-color: var(--error); }
+
+        button { 
+            background: var(--error); border: none; padding: 14px; 
+            border-radius: 8px; cursor: pointer; font-weight: bold; 
+            color: white; width: 100%; margin-top: 15px; font-size: 1rem;
+        }
+        button:hover { opacity: 0.9; }
+
+        .feedback { margin-top: 15px; padding: 12px; border-radius: 8px; display: none; font-size: 0.95rem; line-height: 1.4; }
+        .correct { background: rgba(63, 185, 80, 0.1); color: var(--success); border: 1px solid var(--success); }
+        .wrong { background: rgba(248, 81, 73, 0.1); color: var(--error); border: 1px solid var(--error); }
+        
+        code { background: #21262d; padding: 2px 4px; border-radius: 4px; color: #ff7b72; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" class="nav-back">← Voltar ao Menu</a>
+    
+    <header>
+        <h1>Razão e Proporção: Nível Mestre</h1>
+        <p style="color: var(--text-dim)">Desafios de Regra de Três Composta e Escalas Multidimensionais</p>
+    </header>
+    
+    <div id="quiz-container"></div>
+</div>
+
+<script>
+    const questionsC = [
+      { 
+        q: "Em uma fábrica, 12 máquinas produzem 480 unidades em 8 dias operando 6h por dia. Quantas máquinas seriam necessárias para produzir 600 unidades em 5 dias operando 8h por dia?", 
+        a: "18", 
+        hint: "Regra de três composta: relacione máquinas com produção (dir), dias (inv) e horas/dia (inv)." 
+      },
+      { 
+        q: "Divida o número 310 em três partes que sejam inversamente proporcionais a 2, 3 e 5. Qual o valor da maior parte?", 
+        a: "150", 
+        hint: "Use a constante k: k/2 + k/3 + k/5 = 310. Determine k e calcule a parcela de k/2." 
+      },
+      { 
+        q: "Um mapa possui escala de 1:50.000. Se uma reserva florestal ocupa 100 cm² no mapa, qual é a sua área real em km²?", 
+        a: "25", 
+        hint: "A escala de área é o quadrado da escala linear. (50.000 cm = 0,5 km). (0,5)² = 0,25 km² por cm²." 
+      },
+      { 
+        q: "Três grandezas A, B e C são tais que A:B = 2:3 e B:C = 4:5. Se a soma A+B+C é igual a 350, qual o valor de C?", 
+        a: "150", 
+        hint: "Iguale o termo B nas duas razões para obter A:B:C = 8:12:15. Divida 350 pela soma das partes." 
+      },
+      { 
+        q: "Cinco impressoras 3D produzem 2000 peças em 10 horas. Se duas máquinas estragarem, em quanto tempo as restantes produzirão 6000 peças?", 
+        a: "50", 
+        hint: "Regra de três composta: Máquinas (inv) e Peças (dir) em relação ao Tempo." 
+      },
+      { 
+        q: "Um reservatório real tem 40.000 litros. Uma maquete desse reservatório foi feita na escala 1:20. Qual o volume da maquete em litros?", 
+        a: "5", 
+        hint: "A escala de volume é o cubo da escala linear: (1/20)³ = 1/8000." 
+      },
+      { 
+        q: "Divida 700 em partes inversamente proporcionais a 1, 2 e 4. Qual o valor da menor parte?", 
+        a: "100", 
+        hint: "Menor parte corresponde ao maior divisor (4). k/1 + k/2 + k/4 = 700." 
+      },
+      { 
+        q: "A razão entre o preço dos produtos A e B é 3/4 e entre B e C é 2/1. Se os três juntos custam R$ 900,00, quanto custa o produto B?", 
+        a: "400", 
+        hint: "Crie a razão encadeada A:B:C = 3:4:2. Divida 900 por (3+4+2) e multiplique por 4." 
+      },
+      { 
+        q: "Quinze máquinas, funcionando 8h/dia, produzem 720m de tecido em 12 dias. Quantos metros produzirão 10 máquinas funcionando 6h/dia durante 20 dias?", 
+        a: "600", 
+        hint: "A produção é diretamente proporcional a máquinas, horas e dias." 
+      },
+      { 
+        q: "As idades de três irmãos X, Y e Z são proporcionais a 5, 4 e 3, nesta ordem. Se X tem 6 anos a mais que Z, qual a soma das idades dos três?", 
+        a: "36", 
+        hint: "Se 5k - 3k = 6, então k = 3. Calcule (5+4+3) * k." 
+      },
+      { 
+        q: "Em um mapa de escala 1:2.000, uma praça retangular tem área de 50 cm². Qual a área real da praça em metros quadrados?", 
+        a: "20000", 
+        hint: "1 cm = 20 m. Logo, 1 cm² = 400 m². Multiplique 50 por 400." 
+      },
+      { 
+        q: "Vinte operários trabalhando 6h por dia constroem uma casa em 30 dias. Em quantos dias 15 operários trabalhando 8h por dia construiriam a mesma casa?", 
+        a: "30", 
+        hint: "Operários e Horas são inversamente proporcionais ao Tempo (Dias)." 
+      },
+      { 
+        q: "Reparta 450 em partes inversamente proporcionais a 3, 4 e 6. Qual o valor da parte intermediária?", 
+        a: "150", 
+        hint: "k/3 + k/4 + k/6 = 450. Ache k e calcule k/4." 
+      },
+      { 
+        q: "Um cubo de metal tem 150 cm² de área total. Se dobrarmos todas as suas arestas, qual será a nova área total em cm²?", 
+        a: "600", 
+        hint: "Se a razão linear é 2, a razão de área é 2² = 4. 150 * 4 = 600." 
+      },
+      { 
+        q: "A razão de dentes entre as engrenagens A:B é 2:5 e B:C é 3:4. Se a engrenagem C tem 60 dentes, quantos dentes tem a engrenagem A?", 
+        a: "18", 
+        hint: "C = 60 -> B = 45 (pois 3/4 de 60 seria 45). Se B=45, A = (2/5)*45." 
+      },
+      { 
+        q: "Oito torneiras, abertas 5h/dia, enchem 10 tanques em 6 dias. Quantos tanques serão cheios por 4 torneiras, abertas 10h/dia, durante 12 dias?", 
+        a: "20", 
+        hint: "Tanques é diretamente proporcional a Torneiras, Horas e Dias." 
+      },
+      { 
+        q: "Divida 260 em partes inversamente proporcionais a 2, 3 e 4. Qual o valor da maior parte?", 
+        a: "120", 
+        hint: "k/2 + k/3 + k/4 = 260. A maior parte é k/2." 
+      },
+      { 
+        q: "Em uma maquete 1:50, um reservatório de água tem volume de 80 cm³. Qual o volume real em metros cúbicos?", 
+        a: "10", 
+        hint: "1 cm³ maquete = (50)³ cm³ real = 125.000 cm³. 80 * 125.000 = 10.000.000 cm³ = 10 m³." 
+      },
+      { 
+        q: "Se A/B = 0,6 e B/C = 0,5, e a soma A+B+C = 90, determine o valor de B.", 
+        a: "25", 
+        hint: "Substitua A = 0,6B e C = 2B na equação da soma." 
+      },
+      { 
+        q: "Um batalhão de 1200 homens tem mantimentos para 30 dias, com 3 refeições diárias. Após 10 dias, 200 homens são transferidos. Se cada homem passar a fazer 2 refeições diárias, para quantos dias durarão os mantimentos restantes?", 
+        a: "36", 
+        hint: "Calcule as unidades de refeição restantes e divida pelo novo consumo diário (1000 homens * 2 ref)." 
+      }
+    ];
+
+    const container = document.getElementById('quiz-container');
+
+    questionsC.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <span class="question-text"><b>${index+1}.</b> ${item.q}</span>
+            <div class="input-group">
+                <input type="text" id="ans-${index}" placeholder="Sua resposta numérica...">
+            </div>
+            <button onclick="check(${index})">Verificar Desafio</button>
+            <div id="feedback-${index}" class="feedback"></div>
+        `;
+        container.appendChild(card);
+    });
+
+    function check(i) {
+        const input = document.getElementById(`ans-${i}`).value.trim().replace(',', '.');
+        const f = document.getElementById(`feedback-${i}`);
+        f.style.display = "block";
+        
+        // Comparação numérica flexível
+        if(parseFloat(input) === parseFloat(questionsC[i].a)) {
+            f.innerHTML = "✅ <b>Excelência pura!</b> Você resolveu um problema de alta complexidade com perfeição.";
+            f.className = "feedback correct";
+        } else {
+            f.innerHTML = "❌ <b>Raciocínio incompleto.</b> Dica: " + questionsC[i].hint;
+            f.className = "feedback wrong";
+        }
+    }
+</script>
+
+</body>
+</html>
+
