@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jornada Matemática - Master</title>
+    <style>
+        :root {
+            --bg: #0a0c10;
+            --card-bg: #161b22;
+            --primary: #58a6ff;
+            --secondary: #238636;
+            --text-main: #f0f6fc;
+            --text-dim: #8b949e;
+            --border: #30363d;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            width: 100%;
+            padding: 40px 20px;
+            text-align: center;
+            background: linear-gradient(180deg, #161b22 0%, #0a0c10 100%);
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2rem;
+            color: var(--primary);
+            letter-spacing: -1px;
+        }
+
+        p.subtitle {
+            color: var(--text-dim);
+            margin-top: 10px;
+        }
+
+        .menu-container {
+            width: 90%;
+            max-width: 800px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding-bottom: 50px;
+        }
+
+        .module-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s, border-color 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .module-number {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .module-title {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+        }
+
+        .module-desc {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            margin-bottom: 20px;
+        }
+
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 20px;
+            background: #21262d;
+            align-self: flex-start;
+            color: var(--text-dim);
+        }
+
+        /* Estilo para módulos que ainda não criamos */
+        .locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Jornada Matemática</h1>
+        <p class="subtitle">Domina os números, conquista o teu futuro.</p>
+    </header>
+
+    <main class="menu-container">
+        
+        <a href="operacoes.html" class="module-card">
+            <div>
+                <span class="module-number">Módulo 01</span>
+                <h2 class="module-title">Operações Básicas</h2>
+                <p class="module-desc">Soma, subtração, multiplicação e divisão com foco em agilidade mental e prioridades.</p>
+            </div>
+            <span class="status-badge" style="color: #34d399;">Disponível</span>
+        </a>
+
+        <a href="fracoes.html" class="module-card">
+            <div>
+                <span class="module-number">Módulo 02</span>
+                <h2 class="module-title">Frações</h2>
+                <p class="module-desc">MMC, simplificação e operações com partes de um todo de forma intuitiva.</p>
+            </div>
+            <span class="status-badge">Próximo</span>
+        </a>
+
+        <a href="#" class="module-card locked">
+            <div>
+                <span class="module-number">Módulo 03</span>
+                <h2 class="module-title">Potência e Raiz</h2>
+                <p class="module-desc">Desvenda as propriedades dos expoentes e a lógica reversa da radiciação.</p>
+            </div>
+            <span class="status-badge">Bloqueado</span>
+        </a>
+
+        <a href="#" class="module-card locked">
+            <div>
+                <span class="module-number">Módulo 04</span>
+                <h2 class="module-title">Porcentagem</h2>
+                <p class="module-desc">Matemática financeira e análise estatística aplicada ao dia a dia.</p>
+            </div>
+            <span class="status-badge">Bloqueado</span>
+        </a>
+
+        <a href="#" class="module-card locked">
+            <div>
+                <span class="module-number">Módulo 05</span>
+                <h2 class="module-title">Razão e Proporção</h2>
+                <p class="module-desc">Regra de três, escalas e comparações entre diferentes grandezas.</p>
+            </div>
+            <span class="status-badge">Bloqueado</span>
+        </a>
+
+        <a href="#" class="module-card locked">
+            <div>
+                <span class="module-number">Módulo 06</span>
+                <h2 class="module-title">Interpretação e Equações</h2>
+                <p class="module-desc">Transforma problemas de texto em linguagem matemática e resolve incógnitas.</p>
+            </div>
+            <span class="status-badge">Bloqueado</span>
+        </a>
+
+    </main>
+
+</body>
+</html>
