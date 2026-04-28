@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Porcentagem: Nível A</title>
+    <style>
+        :root { 
+            --bg: #0d1117; 
+            --card: #161b22; 
+            --primary: #58a6ff; 
+            --success: #3fb950; 
+            --error: #f85149; 
+            --text: #c9d1d9; 
+            --text-dim: #8b949e;
+            --border: #30363d;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            padding: 20px; 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container { width: 100%; max-width: 600px; }
+
+        .nav-back { 
+            display: inline-block; 
+            margin-bottom: 20px; 
+            color: var(--primary); 
+            text-decoration: none; 
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        header { text-align: center; margin-bottom: 30px; }
+        
+        h1 { 
+            color: var(--success); 
+            font-size: 1.8rem; 
+            margin-bottom: 10px;
+        }
+
+        .card { 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 20px; 
+            margin-bottom: 20px;
+        }
+
+        .question-text { font-size: 1.1rem; margin-bottom: 15px; display: block; line-height: 1.5; }
+
+        input { 
+            background: #0d1117; 
+            border: 1px solid var(--border); 
+            color: white; 
+            padding: 12px; 
+            border-radius: 8px; 
+            width: 100%; 
+            box-sizing: border-box; 
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--success); }
+
+        button { 
+            background: var(--success); 
+            border: none; 
+            padding: 12px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            color: white; 
+            width: 100%; 
+            margin-top: 12px;
+        }
+
+        button:hover { opacity: 0.9; }
+
+        .feedback { 
+            margin-top: 15px; 
+            padding: 12px; 
+            border-radius: 8px; 
+            display: none; 
+            font-size: 0.9rem; 
+            line-height: 1.4;
+        }
+
+        .correct { background: rgba(63, 185, 80, 0.1); color: var(--success); border: 1px solid var(--success); }
+        .wrong { background: rgba(248, 81, 73, 0.1); color: var(--error); border: 1px solid var(--error); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" class="nav-back">← Voltar ao Menu</a>
+    
+    <header>
+        <h1>Porcentagem Básica</h1>
+        <p style="color: var(--text-dim)">Nível A: Cálculos Rápidos e Conceitos</p>
+    </header>
+    
+    <div id="quiz-container"></div>
+</div>
+
+<script>
+    const questions = [
+        { q: "Quanto é 10% de 100?", a: "10", hint: "Dica: Divida o valor por 10." },
+        { q: "Quanto é 50% de 80?", a: "40", hint: "Dica: 50% é o mesmo que a metade." },
+        { q: "Quanto é 25% de 200?", a: "50", hint: "Dica: 25% é a quarta parte (divida por 4)." },
+        { q: "Quanto é 100% de 45?", a: "45", hint: "Dica: 100% de qualquer número é ele mesmo." },
+        { q: "Se uma blusa de R$ 60,00 tem 10% de desconto, qual o valor do desconto?", a: "6", hint: "Dica: Calcule 10% de 60." },
+        { q: "Quanto é 20% de 50?", a: "10", hint: "Dica: Multiplique 20 por 50 e divida por 100 (ou tire 10% e dobre)." },
+        { q: "Como escrevemos 50% em forma de fração simplificada?", a: "1/2", hint: "Dica: Metade do total." },
+        { q: "Quanto é 5% de 100?", a: "5", hint: "Dica: Em 100, a porcentagem é o próprio número." },
+        { q: "Quanto é 75% de 100?", a: "75", hint: "Dica: Três quartos de 100." },
+        { q: "Se 10% de um número é 8, que número é esse?", a: "80", hint: "Dica: Se a décima parte é 8, o total é 8 vezes 10." },
+        { q: "Quanto é 10% de 250?", a: "25", hint: "Dica: Corte o último zero." },
+        { q: "Quanto é 50% de 500?", a: "250", hint: "Dica: Metade de 500." },
+        { q: "Um produto custa R$ 10,00 e aumentou 10%. Qual o novo preço?", a: "11", hint: "Dica: 10% de 10 é 1. Some ao valor original." },
+        { q: "Quanto é 1% de 1000?", a: "10", hint: "Dica: Divida por 100 ou corte dois zeros." },
+        { q: "Quanto é 25% de 40?", a: "10", hint: "Dica: Divida 40 por 4." },
+        { q: "Como se escreve 0,2 em porcentagem?", a: "20%", hint: "Dica: Multiplique por 100 e adicione o símbolo %." },
+        { q: "Quanto é 10% de 5?", a: "0.5", hint: "Dica: Divida 5 por 10." },
+        { q: "Se você acertou 18 de 20 questões, qual sua porcentagem de acerto?", a: "90%", hint: "Dica: 18/20 é o mesmo que 9/10." },
+        { q: "Quanto é 30% de 200?", a: "60", hint: "Dica: 10% é 20. Agora faça 20 vezes 3." },
+        { q: "Quanto é 50% de 1?", a: "0.5", hint: "Dica: A metade de um inteiro." }
+    ];
+
+    const container = document.getElementById('quiz-container');
+
+    questions.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <span class="question-text"><b>Questão ${index + 1}:</b> ${item.q}</span>
+            <input type="text" id="input-${index}" placeholder="Sua resposta...">
+            <button onclick="check(${index})">Verificar</button>
+            <div id="feedback-${index}" class="feedback"></div>
+        `;
+        container.appendChild(card);
+    });
+
+    function check(i) {
+        const val = document.getElementById(`input-${i}`).value.trim().toLowerCase().replace(',', '.');
+        const f = document.getElementById(`feedback-${i}`);
+        f.style.display = "block";
+        
+        // Aceita resposta com ou sem o símbolo %
+        const correctAnswer = questions[i].a.toLowerCase();
+        const cleanVal = val.replace('%', '');
+        const cleanCorrect = correctAnswer.replace('%', '');
+
+        if(cleanVal === cleanCorrect) {
+            f.innerHTML = "✅ <b>Correto!</b> Ótimo cálculo.";
+            f.className = "feedback correct";
+        } else {
+            f.innerHTML = "❌ <b>Tente novamente.</b> " + questions[i].hint;
+            f.className = "feedback wrong";
+        }
+    }
+</script>
+
+</body>
+</html>
