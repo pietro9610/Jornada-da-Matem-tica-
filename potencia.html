@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 3: Potência e Raiz</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --card: #161b22;
+            --primary: #bc8cff; /* Roxo para este módulo */
+            --text: #c9d1d9;
+            --success: #238636;
+            --error: #da3633;
+            --highlight: #aff5b4;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container { max-width: 800px; margin: auto; }
+
+        .nav-back {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .header-module {
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        h2 { color: var(--primary); margin-top: 0; }
+
+        .rules-box {
+            background: #121d2f;
+            padding: 15px;
+            border-radius: 6px;
+            border-right: 4px solid var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .math-text { font-family: 'Times New Roman', serif; font-style: italic; font-size: 1.2rem; }
+
+        input {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            width: 100%;
+            max-width: 250px;
+            margin: 15px 0;
+            font-size: 1.1rem;
+        }
+
+        button {
+            background: var(--primary);
+            color: #0d1117;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover { filter: brightness(1.2); }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+            border-left: 5px solid;
+        }
+
+        .correct { background: #1a351f; border-color: var(--success); color: #34d399; }
+        .wrong { background: #351a1a; border-color: var(--error); color: #f87171; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" class="nav-back">← Voltar ao Menu</a>
+    
+    <div class="header-module">
+        <h1>Módulo 3: Potência e Raiz</h1>
+        <p>Entenda o crescimento acelerado e a reversão dos números.</p>
+    </div>
+
+    <div class="card">
+        <h2>⚡ O Crescimento Exponencial</h2>
+        <div class="rules-box">
+            <p><strong>Potência:</strong> Não é multiplicação comum! <span class="math-text">2³</span> significa <span class="math-text">2 × 2 × 2 = 8</span>. O número de cima diz quantas vezes a base se repete.</p>
+            <p><strong>Raiz Quadrada:</strong> É a pergunta inversa. <span class="math-text">√25</span> pergunta: "Qual número multiplicado por ele mesmo dá 25?". Resposta: 5.</p>
+        </div>
+        <p style="color: #8b949e; font-size: 0.9rem;">
+            💡 <strong>Regra de Ouro:</strong> Qualquer número elevado a 0 é 1. Qualquer número elevado a 1 é ele mesmo.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>Desafio 01: O Erro Mais Comum</h3>
+        <p>Qual o valor de <span class="math-text">3⁴</span>?</p>
+        <input type="number" id="q1" placeholder="Sua resposta...">
+        <button onclick="checkQ1()">Checar Potência</button>
+        <div id="f1" class="feedback"></div>
+    </div>
+
+    <div class="card">
+        <h3>Desafio 02: Raízes e Lógica</h3>
+        <p>Qual o resultado de <span class="math-text">√64 + √36</span>?</p>
+        <input type="number" id="q2" placeholder="Sua resposta...">
+        <button onclick="checkQ2()">Checar Raiz</button>
+        <div id="f2" class="feedback"></div>
+    </div>
+
+    <div class="card">
+        <h3>Desafio 03: Expressão Ampla</h3>
+        <p>Resolva: <span class="math-text">5² - (2³ + √16)</span></p>
+        <input type="number" id="q3" placeholder="Sua resposta...">
+        <button onclick="checkQ3()">Checar Tudo</button>
+        <div id="f3" class="feedback"></div>
+    </div>
+
+</div>
+
+<script>
+    function checkQ1() {
+        const val = document.getElementById('q1').value;
+        const f = document.getElementById('f1');
+        f.style.display = "block";
+        if(val == 81) {
+            f.innerHTML = "✅ <b>Perfeito!</b> 3 × 3 × 3 × 3 = 81. Você não caiu na armadilha!";
+            f.className = "feedback correct";
+        } else if(val == 12) {
+            f.innerHTML = "❌ <b>Cuidado!</b> Você multiplicou 3 por 4. Na potência, o 4 diz quantas vezes o 3 se multiplica por si mesmo.";
+            f.className = "feedback wrong";
+        } else {
+            f.innerHTML = "❌ <b>Incorreto.</b> Lembre-se: 3x3=9, 9x3=27, 27x3=...";
+            f.className = "feedback wrong";
+        }
+    }
+
+    function checkQ2() {
+        const val = document.getElementById('q2').value;
+        const f = document.getElementById('f2');
+        f.style.display = "block";
+        if(val == 14) {
+            f.innerHTML = "✅ <b>Correto!</b> √64 é 8 (8x8) e √36 é 6 (6x6). 8 + 6 = 14.";
+            f.className = "feedback correct";
+        } else if(val == 100) {
+            f.innerHTML = "❌ <b>Opa!</b> Você somou 64+36 dentro da raiz? Na matemática, resolvemos cada raiz separada antes de somar.";
+            f.className = "feedback wrong";
+        } else {
+            f.className = "feedback wrong";
+            f.innerHTML = "❌ <b>Incorreto.</b> Descubra quais números multiplicados por eles mesmos dão 64 e 36.";
+        }
+    }
+
+    function checkQ3() {
+        const val = document.getElementById('q3').value;
+        const f = document.getElementById('f3');
+        f.style.display = "block";
+        if(val == 13) {
+            f.innerHTML = "✅ <b>Mestre das Expressões!</b> Passo a passo: 5²=25, 2³=8, √16=4. Ficamos com: 25 - (8 + 4) = 25 - 12 = 13.";
+            f.className = "feedback correct";
+        } else {
+            f.innerHTML = "❌ <b>Errou o caminho.</b> Dica: Resolva a potência de fora, depois tudo o que está dentro do parênteses.";
+            f.className = "feedback wrong";
+        }
+    }
+</script>
+
+</body>
+</html>
