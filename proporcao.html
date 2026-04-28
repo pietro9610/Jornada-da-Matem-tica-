@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 5: Razão e Proporção</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --card: #161b22;
+            --primary: #3fb950; /* Verde clássico para proporção */
+            --text: #c9d1d9;
+            --success: #238636;
+            --error: #da3633;
+            --accent: #f78166;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container { max-width: 800px; margin: auto; }
+
+        .nav-back {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .header-module {
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        h2 { color: var(--primary); margin-top: 0; }
+
+        .ratio-box {
+            background: #1c2128;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .formula { font-family: monospace; color: var(--accent); font-size: 1.1rem; }
+
+        input {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            width: 100%;
+            max-width: 250px;
+            margin: 15px 0;
+            font-size: 1.1rem;
+        }
+
+        button {
+            background: var(--primary);
+            color: #0d1117;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover { filter: brightness(1.2); }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+            border-left: 5px solid;
+        }
+
+        .correct { background: #1a351f; border-color: var(--success); color: #34d399; }
+        .wrong { background: #351a1a; border-color: var(--error); color: #f87171; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" class="nav-back">← Voltar ao Menu</a>
+    
+    <div class="header-module">
+        <h1>Módulo 5: Razão e Proporção</h1>
+        <p>A arte de comparar grandezas e prever resultados.</p>
+    </div>
+
+    <div class="card">
+        <h2>⚖️ A Lógica da Comparação</h2>
+        <div class="ratio-box">
+            <p><strong>Razão:</strong> É o quociente entre dois números. Se há 2 professores para 40 alunos, a razão é <span class="formula">2/40</span> ou <span class="formula">1/20</span>.</p>
+            <p><strong>Proporção:</strong> É a igualdade entre duas razões. <span class="formula">a/b = c/d</span>. O segredo? Multiplique em "X"!</p>
+            <p><strong>Inversamente Proporcional:</strong> Cuidado! Se você dobrar a velocidade, o tempo de viagem cai pela metade. Aqui, você não cruza, você multiplica reto!</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Desafio 01: Regra de Três Simples</h3>
+        <p>Uma receita de bolo usa <strong>3 ovos</strong> para cada <strong>500g</strong> de farinha. Se você quer usar <strong>2kg</strong> (2000g) de farinha, quantos ovos precisará?</p>
+        <input type="number" id="q1" placeholder="Quantidade de ovos">
+        <button onclick="checkQ1()">Verificar Proporção</button>
+        <div id="f1" class="feedback"></div>
+    </div>
+
+    <div class="card">
+        <h3>Desafio 02: Escalas em Mapas</h3>
+        <p>Um mapa está na escala <strong>1 : 100.000</strong> (1cm no mapa vale 100.000cm na vida real). Se a distância entre duas cidades no mapa é de <strong>5cm</strong>, qual a distância real em <strong>quilômetros</strong>?</p>
+        <input type="number" id="q2" placeholder="Distância em km">
+        <button onclick="checkQ2()">Verificar Escala</button>
+        <div id="f2" class="feedback"></div>
+    </div>
+
+    <div class="card">
+        <h3>Desafio 03: A Armadilha da Inversão</h3>
+        <p><strong>4 operários</strong> constroem um muro em <strong>6 dias</strong>. Se contratarmos mais 4 operários (totalizando 8), em quantos dias o mesmo muro será construído?</p>
+        <input type="number" id="q3" placeholder="Quantidade de dias">
+        <button onclick="checkQ3()">Verificar Velocidade</button>
+        <div id="f3" class="feedback"></div>
+    </div>
+
+</div>
+
+<script>
+    function checkQ1() {
+        const val = document.getElementById('q1').value;
+        const f = document.getElementById('f1');
+        f.style.display = "block";
+        // 3/500 = x/2000 -> 500x = 6000 -> x = 12
+        if(val == 12) {
+            f.innerHTML = "✅ <b>Correto!</b> Como a farinha aumentou 4 vezes (500g para 2000g), a quantidade de ovos também aumenta 4 vezes (3 x 4 = 12).";
+            f.className = "feedback correct";
+        } else {
+            f.innerHTML = "❌ <b>Pense na proporção.</b> Se com 500g você usa 3, com 1000g usaria 6... continue seguindo!";
+            f.className = "feedback wrong";
+        }
+    }
+
+    function checkQ2() {
+        const val = document.getElementById('q2').value;
+        const f = document.getElementById('f2');
+        f.style.display = "block";
+        // 5 * 100.000 = 500.000cm -> 5.000m -> 5km
+        if(val == 5) {
+            f.innerHTML = "✅ <b>Boa!</b> 5cm representam 500.000cm. Cortando cinco zeros para transformar cm em km, temos 5km.";
+            f.className = "feedback correct";
+        } else if(val == 500000) {
+            f.innerHTML = "❌ <b>Quase!</b> Sua conta deu 500.000, mas isso é em centímetros. Converta para quilômetros!";
+            f.className = "feedback wrong";
+        } else {
+            f.innerHTML = "❌ <b>Incorreto.</b> Multiplique 5 por 100.000 e converta a unidade de medida.";
+            f.className = "feedback wrong";
+        }
+    }
+
+    function checkQ3() {
+        const val = document.getElementById('q3').value;
+        const f = document.getElementById('f3');
+        f.style.display = "block";
+        // Inversa: 4 * 6 = 8 * x -> 24 = 8x -> x = 3
+        if(val == 3) {
+            f.innerHTML = "✅ <b>Mestre do Raciocínio!</b> Esta é uma grandeza INVERSA. Se você dobra o número de trabalhadores, o tempo cai pela metade.";
+            f.className = "feedback correct";
+        } else if(val == 12) {
+            f.innerHTML = "❌ <b>Cuidado!</b> Você pensou que se dobrou os operários, dobra o tempo? Se tem mais gente trabalhando, o muro fica pronto mais rápido, não mais devagar!";
+            f.className = "feedback wrong";
+        } else {
+            f.innerHTML = "❌ <b>Atenção:</b> Esta é uma Regra de Três Inversa. Multiplique em linha: 4 x 6 e divida por 8.";
+            f.className = "feedback wrong";
+        }
+    }
+</script>
+
+</body>
+</html>
