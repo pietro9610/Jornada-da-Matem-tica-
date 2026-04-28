@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulação: Nível C</title>
+    <title>Formulação: Nível C (Difícil)</title>
     <style>
         :root { 
             --bg: #0d1117; 
@@ -59,11 +59,13 @@
             color: white; width: 100%; margin-top: 15px; font-size: 1rem;
         }
 
+        button:hover { opacity: 0.9; }
+
         .feedback { margin-top: 15px; padding: 12px; border-radius: 8px; display: none; font-size: 0.95rem; }
         .correct { background: rgba(63, 185, 80, 0.1); color: var(--success); border: 1px solid var(--success); }
         .wrong { background: rgba(248, 81, 73, 0.1); color: var(--error); border: 1px solid var(--error); }
         
-        code { background: #21262d; padding: 2px 4px; border-radius: 4px; }
+        code { background: #21262d; padding: 2px 4px; border-radius: 4px; color: #ff7b72; }
     </style>
 </head>
 <body>
@@ -72,8 +74,8 @@
     <a href="index.html" class="nav-back">← Voltar ao Menu</a>
     
     <header>
-        <h1>Formulação de Equações: Mestre</h1>
-        <p style="color: var(--text-dim)">Nível C: Interpretação de Alta Complexidade</p>
+        <h1>Formulação de Equações: Nível C</h1>
+        <p style="color: var(--text-dim)">Desafios de Alta Complexidade (Potências e Frações)</p>
     </header>
     
     <div id="quiz-container"></div>
@@ -81,26 +83,26 @@
 
 <script>
     const questions = [
-        { q: "A soma de um número com sua metade e sua terça parte é igual a 11.", eq: "x+x/2+x/3=11", a: "6", hint: "Equação: x + x/2 + x/3 = 11. Use MMC para resolver." },
-        { q: "O triplo de um número subtraído de sua quarta parte resulta em 22.", eq: "3x-x/4=22", a: "8", hint: "Escreva 3x - x/4 = 22." },
-        { q: "A idade de um pai hoje é o quádruplo da idade do filho. Daqui a 10 anos, será o dobro. Qual a idade do filho hoje?", eq: "4x+10=2(x+10)", a: "5", hint: "Pai hoje: 4x. Filho hoje: x. Daqui a 10 anos: (4x+10) e (x+10)." },
-        { q: "A soma de três números ímpares consecutivos é igual a 51. Qual o primeiro deles?", eq: "x+x+2+x+4=51", a: "15", hint: "Números ímpares aumentam de 2 em 2: x, x+2, x+4." },
-        { q: "O quadrado de um número menos o seu triplo é igual a zero. (Considere x > 0)", eq: "x^2-3x=0", a: "3", hint: "x² - 3x = 0." },
-        { q: "A diferença entre a terça parte de um número e a sua quinta parte é igual a 2.", eq: "x/3-x/5=2", a: "15", hint: "x/3 - x/5 = 2." },
-        { q: "Um número somado com 2, e o resultado elevado ao quadrado, é igual a 49. (Considere x positivo)", eq: "(x+2)^2=49", a: "5", hint: "(x + 2)² = 49. A raiz de 49 é 7." },
-        { q: "A soma de um número com seu antecessor e seu sucessor é igual a 60.", eq: "x-1+x+x+1=60", a: "20", hint: "(x-1) + x + (x+1) = 60." },
-        { q: "O dobro da soma de um número com 5 é igual ao triplo do mesmo número menos 2.", eq: "2(x+5)=3x-2", a: "12", hint: "2*(x+5) = 3x - 2." },
-        { q: "A soma da metade de um número com 8 é igual ao próprio número menos 2.", eq: "x/2+8=x-2", a: "20", hint: "x/2 + 8 = x - 2." },
-        { q: "O produto de um número pelo seu sucessor é 12. Qual o valor positivo de x?", eq: "x(x+1)=12", a: "3", hint: "x * (x + 1) = 12." },
-        { q: "A quinta parte de (x - 2) é igual a 3.", eq: "(x-2)/5=3", a: "17", hint: "(x - 2) / 5 = 3." },
-        { q: "Um número x dividido por 2, somado a 10, é igual a três quartos de x.", eq: "x/2+10=3x/4", a: "40", hint: "x/2 + 10 = 3x/4." },
-        { q: "O triplo de um número somado à sua raiz quadrada é igual a 14. (Dica: x é um quadrado perfeito)", eq: "3x+sqrt(x)=14", a: "4", hint: "Tente valores que tenham raiz quadrada exata, como 4 ou 9." },
-        { q: "A soma de dois números é 20 e a diferença é 4. Qual o valor do maior número?", eq: "x+x-4=20", a: "12", hint: "Se o maior é x, o menor é x-4. x + (x-4) = 20." },
-        { q: "Quatro quintos de um número somados a 2 resultam em 10.", eq: "4x/5+2=10", a: "10", hint: "4/5 * x + 2 = 10." },
-        { q: "A idade de Maria daqui a 5 anos será o dobro da idade que ela tinha há 5 anos.", eq: "x+5=2(x-5)", a: "15", hint: "Futuro: x+5. Passado: x-5." },
-        { q: "A soma de um número com o seu dobro e sua quarta parte é 13.", eq: "x+2x+x/4=13", a: "4", hint: "x + 2x + x/4 = 13." },
-        { q: "Um número x elevado ao cubo é igual a 27.", eq: "x^3=27", a: "3", hint: "x³ = 27." },
-        { q: "A média aritmética de x e 2x é igual a 9.", eq: "(x+2x)/2=9", a: "6", hint: "(x + 2x) / 2 = 9." }
+        { q: "A soma dos quadrados de dois números inteiros positivos consecutivos é 25. Qual o menor deles?", eq: "x^2+(x+1)^2=25", a: "3", hint: "Desenvolva o quadrado da soma e resolva a equação de 2º grau." },
+        { q: "A soma de um número com sua metade e sua terça parte é igual a 22. Qual o número?", eq: "x+x/2+x/3=22", a: "12", hint: "Encontre o MMC de 2 e 3 para eliminar os denominadores." },
+        { q: "Um pai tem o triplo da idade do filho. Daqui a 12 anos, o pai terá o dobro da idade do filho. Qual a idade do filho hoje?", eq: "3x+12=2(x+12)", a: "12", hint: "Filho é x e pai é 3x. Lembre-se de somar 12 a ambos no futuro." },
+        { q: "A soma de três números pares consecutivos é igual a 48. Qual o menor deles?", eq: "x+x+2+x+4=48", a: "14", hint: "Números pares pulam de 2 em 2: x, x+2 e x+4." },
+        { q: "Se aumentarmos em 2 unidades o lado de um quadrado, sua área passa a ser 49. Qual o lado original?", eq: "(x+2)^2=49", a: "5", hint: "Lado original x, novo lado x+2. A área é o lado ao quadrado." },
+        { q: "Um número menos sua quarta parte e sua quinta parte resulta em 11.", eq: "x-x/4-x/5=11", a: "20", hint: "Subtraia x/4 e x/5 da incógnita x." },
+        { q: "A soma de dois números ímpares consecutivos é 40. Qual o menor deles?", eq: "x+x+2=40", a: "19", hint: "Números ímpares consecutivos também pulam de 2 em 2." },
+        { q: "Há 5 anos, a idade de João era o triplo da de Maria. Hoje a soma das idades é 50. Qual a idade de Maria?", eq: "(50-x-5)=3(x-5)", a: "15", hint: "Se Maria é x, João é 50-x. Subtraia 5 de ambos para o passado." },
+        { q: "Dois terços de um número somados com três quartos do mesmo número resultam em 17.", eq: "2x/3+3x/4=17", a: "12", hint: "Use o MMC de 3 e 4 para simplificar a equação." },
+        { q: "Um número positivo somado ao seu próprio quadrado resulta em 30.", eq: "x+x^2=30", a: "5", hint: "Trata-se de uma equação de 2º grau: x² + x - 30 = 0." },
+        { q: "As idades de três irmãos são números inteiros consecutivos. A soma dessas idades é 45. Qual a idade do mais novo?", eq: "x+x+1+x+2=45", a: "14", hint: "Considere os irmãos como x, x+1 e x+2." },
+        { q: "A diferença entre a metade de um número e sua sexta parte é igual a 4.", eq: "x/2-x/6=4", a: "12", hint: "Simplifique as frações usando o denominador comum 6." },
+        { q: "A metade da minha idade hoje somada com um terço da idade que terei daqui a 10 anos é 20.", eq: "x/2+(x+10)/3=20", a: "20", hint: "Defina hoje como x e o futuro como x+10." },
+        { q: "A diferença entre os quadrados de dois números pares positivos consecutivos é 20. Qual o menor?", eq: "(x+2)^2-x^2=20", a: "4", hint: "Desenvolva (x+2)² e subtraia x²." },
+        { q: "A soma de um número positivo com seu inverso (1/x) é igual a 2,5.", eq: "x+1/x=2.5", a: "2", hint: "Multiplique toda a equação por x para remover a fração." },
+        { q: "A área de um retângulo é 40. A base mede x e a altura é 3 unidades maior que a base. Qual a base?", eq: "x(x+3)=40", a: "5", hint: "Multiplique base por altura: x * (x+3) = 40." },
+        { q: "O produto de dois números ímpares positivos consecutivos é 35. Qual o menor deles?", eq: "x(x+2)=35", a: "5", hint: "Resolva x² + 2x - 35 = 0." },
+        { q: "Daqui a 20 anos, minha idade será o triplo da idade que eu tinha há 10 anos.", eq: "x+20=3(x-10)", a: "25", hint: "Equacione o futuro (x+20) com o triplo do passado (x-10)." },
+        { q: "A soma da terça parte de (x+2) com a metade de (x-1) é igual a 5.", eq: "(x+2)/3+(x-1)/2=5", a: "8", hint: "Multiplique todos os termos por 6 (MMC de 2 e 3)." },
+        { q: "O triplo de um número positivo subtraído do seu quadrado é igual a 2.", eq: "x^2-3x=-2", a: "2", hint: "Cuidado: 'triplo subtraído do quadrado' significa x² - 3x. Resulta em 2 ou -2 dependendo da lógica, aqui usamos x²-3x=-2." }
     ];
 
     const container = document.getElementById('quiz-container');
@@ -110,11 +112,11 @@
         card.className = 'card';
         card.innerHTML = `
             <span class="question-text"><b>${index+1}.</b> ${item.q}</span>
-            <span class="label-group">Equação esperada (sem espaços):</span>
-            <input type="text" id="eq-${index}" placeholder="Ex: x/2+x=10">
-            <span class="label-group">Valor de X:</span>
-            <input type="text" id="ans-${index}" placeholder="Resposta final...">
-            <button onclick="check(${index})">Validar Solução</button>
+            <label class="label-group">Equação (ex: x^2+x=10):</label>
+            <input type="text" id="eq-${index}" placeholder="Sua equação...">
+            <label class="label-group">Valor de X:</label>
+            <input type="text" id="ans-${index}" placeholder="Valor de x...">
+            <button onclick="check(${index})">Verificar Resposta</button>
             <div id="feedback-${index}" class="feedback"></div>
         `;
         container.appendChild(card);
@@ -123,20 +125,19 @@
     function check(i) {
         const eqInput = document.getElementById(`eq-${i}`).value.replace(/\s+/g, '').toLowerCase();
         const ansInput = document.getElementById(`ans-${i}`).value.trim();
-        const f = document.getElementById(`feedback-${i}`);
+        const f = document.getElementById(`feedback-${index=i}`);
         f.style.display = "block";
         
         const correctEq = questions[i].eq.replace(/\s+/g, '').toLowerCase();
 
-        // Verifica se a resposta numérica está correta e se a equação bate (mesmo que simplificada)
         if(ansInput === questions[i].a && (eqInput === correctEq || eqInput.includes('x'))) {
-            f.innerHTML = "✅ <b>Mestre!</b> Equação montada e x encontrado com precisão.";
+            f.innerHTML = "✅ <b>Perfeito!</b> Você dominou a interpretação e o cálculo.";
             f.className = "feedback correct";
         } else if (ansInput === questions[i].a) {
-            f.innerHTML = "⚠️ <b>Resposta correta!</b> Mas a estrutura da sua equação está diferente da esperada: <code>" + questions[i].eq + "</code>";
+            f.innerHTML = "⚠️ <b>Resultado correto!</b> Mas a equação esperada era: <code>" + questions[i].eq + "</code>";
             f.className = "feedback correct";
         } else {
-            f.innerHTML = "❌ <b>Raciocínio incorreto.</b> " + questions[i].hint;
+            f.innerHTML = "❌ <b>Raciocínio incompleto.</b> " + questions[i].hint;
             f.className = "feedback wrong";
         }
     }
