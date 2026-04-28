@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Porcentagem: Nível C (Mestre Financeiro)</title>
+    <style>
+        :root { 
+            --bg: #0d1117; 
+            --card: #161b22; 
+            --primary: #58a6ff; 
+            --success: #3fb950; 
+            --error: #f85149; 
+            --text: #c9d1d9; 
+            --text-dim: #8b949e;
+            --border: #30363d;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            padding: 20px; 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container { width: 100%; max-width: 650px; }
+
+        .nav-back { 
+            display: inline-block; 
+            margin-bottom: 20px; 
+            color: var(--primary); 
+            text-decoration: none; 
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        header { text-align: center; margin-bottom: 30px; }
+        
+        h1 { 
+            color: var(--error); 
+            font-size: 1.8rem; 
+            margin-bottom: 10px;
+        }
+
+        .card { 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 24px; 
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .question-text { 
+            font-size: 1.05rem; 
+            line-height: 1.6;
+            margin-bottom: 15px; 
+            display: block; 
+        }
+
+        input { 
+            background: #0d1117; 
+            border: 1px solid var(--border); 
+            color: white; 
+            padding: 12px; 
+            border-radius: 8px; 
+            width: 100%; 
+            box-sizing: border-box; 
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--error); }
+
+        button { 
+            background: var(--error); 
+            border: none; 
+            padding: 12px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            color: white; 
+            width: 100%; 
+            margin-top: 12px;
+            font-size: 1rem;
+        }
+
+        button:hover { opacity: 0.9; }
+
+        .feedback { 
+            margin-top: 15px; 
+            padding: 12px; 
+            border-radius: 8px; 
+            display: none; 
+            font-size: 0.9rem; 
+            line-height: 1.4;
+        }
+
+        .correct { background: rgba(63, 185, 80, 0.1); color: var(--success); border: 1px solid var(--success); }
+        .wrong { background: rgba(248, 81, 73, 0.1); color: var(--error); border: 1px solid var(--error); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" class="nav-back">← Voltar ao Menu</a>
+    
+    <header>
+        <h1>Porcentagem: Desafio C</h1>
+        <p style="color: var(--text-dim)">Nível C: Matemática Financeira Aplicada</p>
+    </header>
+    
+    <div id="quiz-container"></div>
+</div>
+
+<script>
+    const questions = [
+        { q: "Uma mercadoria custava R$ 100,00. Sofreu um aumento de 10% e, no mês seguinte, um desconto de 10%. Qual o valor atual da mercadoria?", a: "99", hint: "Calcule 10% sobre R$ 100 (110) e depois retire 10% de R$ 110." },
+        { q: "Um produto foi comprado por R$ 80,00 e vendido com um lucro de 25% sobre o preço de custo. Por quanto ele foi vendido?", a: "100", hint: "Calcule 25% de 80 e some ao valor original." },
+        { q: "Um capital de R$ 2.000,00 foi aplicado a juros simples com uma taxa de 3% ao mês durante 5 meses. Qual o valor total dos juros rendidos?", a: "300", hint: "Use a fórmula J = C x i x t (2000 x 0,03 x 5)." },
+        { q: "Um vendedor recebe 4% de comissão sobre o total de suas vendas. Se ele vendeu R$ 15.000,00 no mês, qual foi a sua comissão?", a: "600", hint: "Calcule 4% sobre 15000." },
+        { q: "Uma televisão custava R$ 1.500,00, mas está sendo vendida por R$ 1.200,00. Qual foi o percentual de desconto concedido?", a: "20", hint: "A diferença é 300. Descubra quanto 300 representa de 1500." },
+        { q: "Após um aumento de 20%, o salário de Maria passou a ser R$ 2.400,00. Qual era o seu salário antes do aumento?", a: "2000", hint: "R$ 2.400 representa 120% (1,2) do valor original." },
+        { q: "Uma loja ofereceu dois aumentos sucessivos de 10% e 20% no valor de um tênis. Isso equivale a um único aumento de quantos por cento?", a: "32", hint: "Use base 100: 100 -> 110 -> 132." },
+        { q: "João investiu R$ 5.000,00 e resgatou R$ 5.600,00 após 4 meses a juros simples. Qual foi a taxa de juros mensal (%)?", a: "3", hint: "Juro total = 600. Juro mensal = 150. Qual a % de 150 sobre 5000?" },
+        { q: "Um comerciante quer lucrar 20% sobre o preço de VENDA de um item que custou R$ 40,00. Por quanto ele deve vender?", a: "50", hint: "Se o lucro é 20% da venda, o custo representa 80% do preço final." },
+        { q: "Comprei uma bicicleta com 15% de desconto e paguei R$ 850,00. Qual era o preço original?", a: "1000", hint: "R$ 850 equivale a 85% do valor total." },
+        { q: "A tarifa de ônibus passou de R$ 4,00 para R$ 4,50. Qual foi o aumento percentual?", a: "12.5", hint: "Divida a variação (0,50) pelo valor inicial (4,00)." },
+        { q: "Um boleto de R$ 300,00 pago com atraso sofreu acréscimo de R$ 15,00. Qual a taxa de multa?", a: "5", hint: "Qual a porcentagem de 15 em relação a 300?" },
+        { q: "Se 20% de uma dívida corresponde a R$ 450,00, qual é o valor total da dívida?", a: "2250", hint: "Multiplique 450 por 5 (pois 20% é 1/5)." },
+        { q: "Dois descontos sucessivos de 20% equivalem a um único desconto de quantos por cento?", a: "36", hint: "Base 100: tire 20% (80), depois tire 20% de 80 (16). Total: 20+16." },
+        { q: "Uma conta teve reajuste de 8% e passou a custar R$ 162,00. Quanto custava antes?", a: "150", hint: "162 dividido por 1,08." },
+        { q: "Se um produto sofre inflação mensal de 5%, após dois meses, qual a porcentagem total de aumento?", a: "10.25", hint: "Cálculo: 1,05 * 1,05." },
+        { q: "O aluguel compromete 30% do salário de R$ 4.500,00. Quanto sobra após pagar o aluguel?", a: "3150", hint: "Calcule os 70% restantes." },
+        { q: "Ao vender um carro por R$ 36.000, o dono teve prejuízo de 10% sobre o custo. Quanto ele pagou na compra?", a: "40000", hint: "36.000 representa 90% do valor de compra." },
+        { q: "O lucro é 25% da receita bruta de R$ 12.000,00. Qual o valor dos custos?", a: "9000", hint: "Custos representam 75% da receita." },
+        { q: "Uma empresa demitiu 15% (45 pessoas). Quantos funcionários tinha antes?", a: "300", hint: "Se 15% é 45, 1% é 3. Multiplique por 100." }
+    ];
+
+    const container = document.getElementById('quiz-container');
+
+    questions.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <span class="question-text"><b>${index + 1}.</b> ${item.q}</span>
+            <input type="text" id="input-${index}" placeholder="Sua resposta numérica...">
+            <button onclick="check(${index})">Verificar Resposta</button>
+            <div id="feedback-${index}" class="feedback"></div>
+        `;
+        container.appendChild(card);
+    });
+
+    function check(i) {
+        const val = document.getElementById(`input-${i}`).value.trim().replace(',', '.');
+        const f = document.getElementById(`feedback-${i}`);
+        f.style.display = "block";
+        
+        // Compara o valor numérico para evitar erros de formatação
+        if(parseFloat(val) === parseFloat(questions[i].a)) {
+            f.innerHTML = "✅ <b>Correto!</b> Seu raciocínio financeiro é excelente.";
+            f.className = "feedback correct";
+        } else {
+            f.innerHTML = "❌ <b>Não foi desta vez.</b> " + questions[i].hint;
+            f.className = "feedback wrong";
+        }
+    }
+</script>
+
+</body>
+</html>
