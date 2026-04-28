@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Razão e Proporção: Nível B</title>
+    <style>
+        :root { 
+            --bg: #0d1117; 
+            --card: #161b22; 
+            --primary: #58a6ff; 
+            --success: #3fb950; 
+            --error: #f85149; 
+            --warning: #d29922;
+            --text: #c9d1d9; 
+            --text-dim: #8b949e;
+            --border: #30363d;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            padding: 20px; 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container { width: 100%; max-width: 600px; }
+
+        .nav-back { 
+            display: inline-block; 
+            margin-bottom: 20px; 
+            color: var(--primary); 
+            text-decoration: none; 
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        header { text-align: center; margin-bottom: 30px; }
+        
+        h1 { 
+            color: var(--warning); 
+            font-size: 1.8rem; 
+            margin-bottom: 10px;
+        }
+
+        .card { 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 20px; 
+            margin-bottom: 20px;
+        }
+
+        .question-text { font-size: 1.1rem; margin-bottom: 15px; display: block; line-height: 1.5; }
+
+        input { 
+            background: #0d1117; 
+            border: 1px solid var(--border); 
+            color: white; 
+            padding: 12px; 
+            border-radius: 8px; 
+            width: 100%; 
+            box-sizing: border-box; 
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--warning); }
+
+        button { 
+            background: var(--warning); 
+            border: none; 
+            padding: 12px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            color: white; 
+            width: 100%; 
+            margin-top: 12px;
+        }
+
+        button:hover { opacity: 0.9; }
+
+        .feedback { 
+            margin-top: 15px; 
+            padding: 12px; 
+            border-radius: 8px; 
+            display: none; 
+            font-size: 0.9rem; 
+            line-height: 1.4;
+        }
+
+        .correct { background: rgba(63, 185, 80, 0.1); color: var(--success); border: 1px solid var(--success); }
+        .wrong { background: rgba(248, 81, 73, 0.1); color: var(--error); border: 1px solid var(--error); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" class="nav-back">← Voltar ao Menu</a>
+    
+    <header>
+        <h1>Razão e Proporção (Intermediário)</h1>
+        <p style="color: var(--text-dim)">Nível B: Regra de Três e Aplicações</p>
+    </header>
+    
+    <div id="quiz-container"></div>
+</div>
+
+<script>
+    const questions = [
+        { q: "Se 4 máquinas produzem 100 peças, quantas peças 6 máquinas produzirão no mesmo tempo?", a: "150", hint: "Dica: Regra de três. (6 * 100) / 4." },
+        { q: "Um carro percorre 240 km em 3 horas. Qual a sua velocidade média em km/h?", a: "80", hint: "Dica: Velocidade é a razão entre distância e tempo." },
+        { q: "Em uma mistura de concreto, a razão cimento para areia é 1:3. Se usei 10 sacos de cimento, quantos de areia usarei?", a: "30", hint: "Dica: 1 para 3 é o mesmo que 10 para...?" },
+        { q: "Numa escala 1:50.000, 2 cm no mapa representam quantos km na realidade?", a: "1", hint: "Dica: 2 * 50.000 = 100.000 cm. Transforme para km (divida por 100.000)." },
+        { q: "Se 5 ingressos custam R$ 125,00, quanto custam 8 ingressos?", a: "200", hint: "Dica: Primeiro ache o valor de 1 (125/5) e multiplique por 8." },
+        { q: "A razão entre o comprimento e a largura de uma piscina é 5:2. Se o comprimento é 25m, qual a largura?", a: "10", hint: "Dica: 5 * 5 = 25. Então 2 * 5 = ?" },
+        { q: "Em uma sala, a razão entre aprovados e reprovados é 4:1. Se há 5 reprovados, quantos são os aprovados?", a: "20", hint: "Dica: Multiplique 4 por 5." },
+        { q: "Um mapa tem escala 1:200. Um muro de 10 metros (1000 cm) reais teria quantos cm no mapa?", a: "5", hint: "Dica: Divida 1000 por 200." },
+        { q: "Se 3 litros de tinta pintam 15 m², quantos litros são necessários para 45 m²?", a: "9", hint: "Dica: 45 é o triplo de 15, então você precisará do triplo de tinta." },
+        { q: "A densidade demográfica é a razão habitantes/área. Se uma cidade tem 50.000 pessoas em 2.500 km², qual a densidade?", a: "20", hint: "Dica: Divida 50.000 por 2.500." },
+        { q: "Em uma maquete 1:20, uma porta de 2 metros (200 cm) de altura terá quantos cm?", a: "10", hint: "Dica: Divida 200 por 20." },
+        { q: "Se x/4 = 9/x e x é positivo, qual o valor de x?", a: "6", hint: "Dica: Multiplique cruzado: x² = 36." },
+        { q: "A razão entre a idade de pai e filho é 3:1. Se a soma das idades é 40, qual a idade do filho?", a: "10", hint: "Dica: Divida 40 pelo total de partes (3+1=4)." },
+        { q: "Se 2 pedreiros constroem um muro em 10 dias, 4 pedreiros (com mesma força) fariam em quantos dias?", a: "5", hint: "Dica: Cuidado! Esta grandeza é inversamente proporcional. Mais gente = menos tempo." },
+        { q: "Um copo de 200ml de suco tem 40ml de polpa. Qual a porcentagem (razão centesimal) de polpa?", a: "20", hint: "Dica: Divida 40 por 200 e multiplique por 100." },
+        { q: "Se 12 kg de ração alimentam 3 cães por um mês, quantos kg alimentam 5 cães?", a: "20", hint: "Dica: (12 / 3) * 5." },
+        { q: "A razão entre dois números é 2/3. Se o menor é 14, qual o maior?", a: "21", hint: "Dica: 2 * 7 = 14. Então 3 * 7 = ?" },
+        { q: "Em um treino, um atleta corre 5km em 20 min. Mantendo o ritmo, quanto tempo leva para 15km?", a: "60", hint: "Dica: 15km é o triplo da distância." },
+        { q: "Qual o valor de x na proporção (x+1)/2 = 6/3?", a: "3", hint: "Dica: 6/3 é igual a 2. Então (x+1)/2 = 2." },
+        { q: "Um prêmio de R$ 600,00 foi dividido entre A e B na razão 2:3. Quanto recebeu o ganhador B?", a: "360", hint: "Dica: 600 / (2+3) = 120 por parte. B recebe 3 partes." }
+    ];
+
+    const container = document.getElementById('quiz-container');
+
+    questions.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <span class="question-text"><b>${index + 1}.</b> ${item.q}</span>
+            <input type="text" id="input-${index}" placeholder="Sua resposta...">
+            <button onclick="check(${index})">Verificar</button>
+            <div id="feedback-${index}" class="feedback"></div>
+        `;
+        container.appendChild(card);
+    });
+
+    function check(i) {
+        const val = document.getElementById(`input-${i}`).value.trim().replace(',', '.');
+        const f = document.getElementById(`feedback-${i}`);
+        f.style.display = "block";
+        
+        if(val === questions[i].a || parseFloat(val) === parseFloat(questions[i].a)) {
+            f.innerHTML = "✅ <b>Correto!</b> Proporção aplicada com sucesso.";
+            f.className = "feedback correct";
+        } else {
+            f.innerHTML = "❌ <b>Quase!</b> " + questions[i].hint;
+            f.className = "feedback wrong";
+        }
+    }
+</script>
+
+</body>
+</html>
