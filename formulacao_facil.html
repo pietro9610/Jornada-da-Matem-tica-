@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulação: Nível A</title>
+    <style>
+        :root { 
+            --bg: #0d1117; 
+            --card: #161b22; 
+            --primary: #58a6ff; 
+            --success: #3fb950; 
+            --error: #f85149; 
+            --text: #c9d1d9; 
+            --text-dim: #8b949e;
+            --border: #30363d;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            padding: 20px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container { width: 100%; max-width: 600px; }
+        .nav-back { color: var(--primary); text-decoration: none; font-weight: bold; margin-bottom: 20px; display: block; }
+        
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { color: var(--success); }
+
+        .card { 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 20px; 
+            margin-bottom: 20px;
+        }
+
+        .question-text { font-size: 1.1rem; margin-bottom: 15px; display: block; color: #ffa657; }
+        
+        label { font-size: 0.85rem; color: var(--text-dim); }
+        input { 
+            background: #0d1117; border: 1px solid var(--border); color: white; 
+            padding: 10px; border-radius: 8px; width: 100%; margin: 5px 0 15px; 
+        }
+
+        button { 
+            background: var(--success); border: none; padding: 12px; 
+            border-radius: 8px; cursor: pointer; font-weight: bold; color: white; width: 100%;
+        }
+
+        .feedback { margin-top: 15px; padding: 12px; border-radius: 8px; display: none; }
+        .correct { background: rgba(63, 185, 80, 0.1); color: var(--success); border: 1px solid var(--success); }
+        .wrong { background: rgba(248, 81, 73, 0.1); color: var(--error); border: 1px solid var(--error); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" class="nav-back">← Voltar ao Menu</a>
+    <header>
+        <h1>Formulação de Equações</h1>
+        <p style="color: var(--text-dim)">Nível A: Tradução Simples</p>
+    </header>
+    <div id="quiz-container"></div>
+</div>
+
+<script>
+    const questions = [
+        { q: "O dobro de um número é 24.", eq: "2x=24", a: "12", hint: "Dobro de x é 2x." },
+        { q: "Um número somado com 7 é igual a 20.", eq: "x+7=20", a: "13", hint: "Somado é +." },
+        { q: "A terça parte de um número é 10.", eq: "x/3=10", a: "30", hint: "Terça parte é x dividido por 3." },
+        { q: "O triplo de um número é igual a 15.", eq: "3x=15", a: "5", hint: "Triplo de x é 3x." },
+        { q: "Um número menos 5 é igual a 11.", eq: "x-5=11", a: "16", hint: "Subtraia 5 de x." },
+        { q: "A metade de um número é 50.", eq: "x/2=50", a: "100", hint: "x/2 = 50." },
+        { q: "O quádruplo de um número resulta em 32.", eq: "4x=32", a: "8", hint: "4 vezes x." },
+        { q: "O sucessor de um número é 10.", eq: "x+1=10", a: "9", hint: "Sucessor é x + 1." },
+        { q: "Um número dividido por 4 é igual a 2.", eq: "x/4=2", a: "8", hint: "x / 4 = 2." },
+        { q: "O triplo de um número somado com 1 é 10.", eq: "3x+1=10", a: "3", hint: "3x + 1 = 10." },
+        { q: "O dobro de um número menos 3 é 7.", eq: "2x-3=7", a: "5", hint: "2x - 3 = 7." },
+        { q: "A quinta parte de um número é 4.", eq: "x/5=4", a: "20", hint: "x dividido por 5." },
+        { q: "Um número somado ao seu dobro é 15.", eq: "x+2x=15", a: "5", hint: "x + 2x = 15." },
+        { q: "O antecessor de um número é 14.", eq: "x-1=14", a: "15", hint: "Antecessor é x - 1." },
+        { q: "Dez menos um número é igual a 4.", eq: "10-x=4", a: "6", hint: "10 - x = 4." },
+        { q: "O dobro da soma de um número com 1 é 12.", eq: "2(x+1)=12", a: "5", hint: "Use parênteses: 2(x+1)." },
+        { q: "A soma de um número com sua metade é 6.", eq: "x+x/2=6", a: "4", hint: "x + x/2 = 6." },
+        { q: "Sete vezes um número é igual a 70.", eq: "7x=70", a: "10", hint: "7x = 70." },
+        { q: "Um número subtraído de 20 resulta em 15.", eq: "20-x=15", a: "5", hint: "Cuidado com a ordem: 20 - x." },
+        { q: "O triplo de um número menos 10 é 20.", eq: "3x-10=20", a: "10", hint: "3x - 10 = 20." }
+    ];
+
+    const container = document.getElementById('quiz-container');
+
+    questions.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <span class="question-text"><b>Questão ${index+1}:</b> ${item.q}</span>
+            <label>Equação (ex: 2x=10):</label>
+            <input type="text" id="eq-${index}" placeholder="Monte a equação...">
+            <label>Valor de X:</label>
+            <input type="text" id="ans-${index}" placeholder="Resolva x...">
+            <button onclick="check(${index})">Verificar</button>
+            <div id="feedback-${index}" class="feedback"></div>
+        `;
+        container.appendChild(card);
+    });
+
+    function check(i) {
+        const eqVal = document.getElementById(`eq-${i}`).value.replace(/\s+/g, '').toLowerCase();
+        const ansVal = document.getElementById(`ans-${i}`).value.trim();
+        const f = document.getElementById(`feedback-${i}`);
+        f.style.display = "block";
+        
+        const correctEq = questions[i].eq.toLowerCase();
+
+        if(eqVal === correctEq && ansVal === questions[i].a) {
+            f.innerHTML = "✅ <b>Correto!</b> Montagem e cálculo perfeitos.";
+            f.className = "feedback correct";
+        } else {
+            f.innerHTML = "❌ <b>Tente ajustar.</b> Dica: " + questions[i].hint;
+            f.className = "feedback wrong";
+        }
+    }
+</script>
+
+</body>
+</html>
+
