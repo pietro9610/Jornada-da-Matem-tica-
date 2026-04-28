@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Porcentagem: Nível B</title>
+    <style>
+        :root { 
+            --bg: #0d1117; 
+            --card: #161b22; 
+            --primary: #58a6ff; 
+            --success: #3fb950; 
+            --error: #f85149; 
+            --warning: #d29922;
+            --text: #c9d1d9; 
+            --text-dim: #8b949e;
+            --border: #30363d;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            padding: 20px; 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container { width: 100%; max-width: 600px; }
+
+        .nav-back { 
+            display: inline-block; 
+            margin-bottom: 20px; 
+            color: var(--primary); 
+            text-decoration: none; 
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        header { text-align: center; margin-bottom: 30px; }
+        
+        h1 { 
+            color: var(--warning); 
+            font-size: 1.8rem; 
+            margin-bottom: 10px;
+        }
+
+        .card { 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 20px; 
+            margin-bottom: 20px;
+        }
+
+        .question-text { font-size: 1.1rem; margin-bottom: 15px; display: block; line-height: 1.5; }
+
+        input { 
+            background: #0d1117; 
+            border: 1px solid var(--border); 
+            color: white; 
+            padding: 12px; 
+            border-radius: 8px; 
+            width: 100%; 
+            box-sizing: border-box; 
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--warning); }
+
+        button { 
+            background: var(--warning); 
+            border: none; 
+            padding: 12px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            color: white; 
+            width: 100%; 
+            margin-top: 12px;
+        }
+
+        button:hover { opacity: 0.9; }
+
+        .feedback { 
+            margin-top: 15px; 
+            padding: 12px; 
+            border-radius: 8px; 
+            display: none; 
+            font-size: 0.9rem; 
+            line-height: 1.4;
+        }
+
+        .correct { background: rgba(63, 185, 80, 0.1); color: var(--success); border: 1px solid var(--success); }
+        .wrong { background: rgba(248, 81, 73, 0.1); color: var(--error); border: 1px solid var(--error); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" class="nav-back">← Voltar ao Menu</a>
+    
+    <header>
+        <h1>Porcentagem: Nível Médio</h1>
+        <p style="color: var(--text-dim)">Nível B: Aumentos, Descontos e Proporções</p>
+    </header>
+    
+    <div id="quiz-container"></div>
+</div>
+
+<script>
+    const questions = [
+        { q: "Um tênis de R$ 200,00 teve um aumento de 15%. Qual o novo preço?", a: "230", hint: "Dica: Calcule 10% (20) e 5% (10). Some os dois (30) ao valor original." },
+        { q: "Um celular de R$ 1.200,00 está com 20% de desconto. Qual o valor final?", a: "960", hint: "Dica: 10% é 120, então 20% é 240. Subtraia 240 de 1200." },
+        { q: "Quanto é 15% de 80?", a: "12", hint: "Dica: 10% de 80 é 8. 5% é 4. Some 8 + 4." },
+        { q: "Se 25% de um valor é R$ 50,00, qual é o valor total?", a: "200", hint: "Dica: 25% é a quarta parte. Multiplique 50 por 4." },
+        { q: "Um salário de R$ 2.000,00 aumentou para R$ 2.400,00. Qual foi a porcentagem de aumento?", a: "20%", hint: "Dica: O aumento foi de 400. Que fração 400 representa de 2000?" },
+        { q: "Quanto é 12% de 250?", a: "30", hint: "Dica: Multiplique 0,12 por 250 ou use a regra de três." },
+        { q: "Uma TV custava R$ 1.500,00 e baixou para R$ 1.200,00. Qual foi o desconto percentual?", a: "20%", hint: "Dica: O desconto foi de 300 reais. 300 é qual parte de 1500?" },
+        { q: "Quanto é 2% de 5.000?", a: "100", hint: "Dica: 1% é 50. Logo, 2% é o dobro." },
+        { q: "Se uma pizza foi dividida em 8 fatias e você comeu 2, qual a porcentagem da pizza que você comeu?", a: "25%", hint: "Dica: 2 de 8 é o mesmo que 1/4." },
+        { q: "Um reservatório de 500 litros está com 65% da sua capacidade. Quantos litros há nele?", a: "325", hint: "Dica: 50% é 250. 10% é 50. 5% é 25. Some 250 + 50 + 25." },
+        { q: "Um investidor ganhou 8% sobre R$ 10.000,00. Qual o valor do lucro?", a: "800", hint: "Dica: 1% é 100. Multiplique por 8." },
+        { q: "Quanto é 35% de 400?", a: "140", hint: "Dica: 10% é 40. Multiplique 40 por 3.5." },
+        { q: "Um produto custa R$ 80,00. Com 5% de desconto para pagamento à vista, quanto custará?", a: "76", hint: "Dica: 10% é 8, então 5% é 4. Subtraia 4 de 80." },
+        { q: "Converta a fração 3/5 em porcentagem.", a: "60%", hint: "Dica: 1/5 é 20%. Multiplique 20 por 3." },
+        { q: "Se 40% dos 50 alunos de uma sala são meninos, quantas são as meninas?", a: "30", hint: "Dica: Se 40% são meninos, 60% são meninas. Calcule 60% de 50." },
+        { q: "Quanto é 0,5% de 1000?", a: "5", hint: "Dica: 1% de 1000 é 10. 0,5% é a metade de 1%." },
+        { q: "Um ingresso custa R$ 40,00. No lote seguinte, o preço subiu 25%. Qual o novo valor?", a: "50", hint: "Dica: 25% de 40 é 10. Some 10 ao preço antigo." },
+        { q: "Qual a porcentagem de 12 em relação a 60?", a: "20%", hint: "Dica: Divida 12 por 60 e multiplique por 100." },
+        { q: "Quanto é 150% de 20?", a: "30", hint: "Dica: É o valor total (20) mais a metade dele (10)." },
+        { q: "Um carro de R$ 40.000,00 desvalorizou 10% no primeiro ano. Qual o valor dele após a desvalorização?", a: "36000", hint: "Dica: Calcule 10% (4000) e subtraia do valor inicial." }
+    ];
+
+    const container = document.getElementById('quiz-container');
+
+    questions.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <span class="question-text"><b>Questão ${index + 1}:</b> ${item.q}</span>
+            <input type="text" id="input-${index}" placeholder="Sua resposta (ex: 230 ou 20%)...">
+            <button onclick="check(${index})">Verificar</button>
+            <div id="feedback-${index}" class="feedback"></div>
+        `;
+        container.appendChild(card);
+    });
+
+    function check(i) {
+        const val = document.getElementById(`input-${i}`).value.trim().toLowerCase().replace(',', '.');
+        const f = document.getElementById(`feedback-${i}`);
+        f.style.display = "block";
+        
+        const correctAnswer = questions[i].a.toLowerCase();
+        const cleanVal = val.replace('%', '');
+        const cleanCorrect = correctAnswer.replace('%', '');
+
+        if(cleanVal === cleanCorrect) {
+            f.innerHTML = "✅ <b>Correto!</b> Bom trabalho.";
+            f.className = "feedback correct";
+        } else {
+            f.innerHTML = "❌ <b>Quase!</b> " + questions[i].hint;
+            f.className = "feedback wrong";
+        }
+    }
+</script>
+
+</body>
+</html>
