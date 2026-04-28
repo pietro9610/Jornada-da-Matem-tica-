@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 2: Frações</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --card: #161b22;
+            --primary: #f2905d; /* Cor laranja para diferenciar do módulo 1 */
+            --text: #c9d1d9;
+            --success: #238636;
+            --error: #da3633;
+            --info: #388bfd;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container { max-width: 800px; margin: auto; }
+
+        .nav-back {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .header-module {
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        h2 { color: var(--primary); margin-top: 0; }
+
+        .teoria-box {
+            background: #0d1117;
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 4px solid var(--info);
+            margin-bottom: 20px;
+        }
+
+        .frac-ex { font-weight: bold; color: var(--info); }
+
+        .question-box { border-top: 1px solid #30363d; padding-top: 20px; }
+
+        input {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            width: 100%;
+            max-width: 250px;
+            margin: 15px 0;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        button {
+            background: var(--primary);
+            color: #0d1117;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover { filter: brightness(1.1); transform: scale(1.02); }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+            border-left: 5px solid;
+        }
+
+        .correct { background: #1a351f; border-color: var(--success); color: #34d399; }
+        .wrong { background: #351a1a; border-color: var(--error); color: #f87171; }
+        
+        .hint { font-size: 0.85rem; color: #8b949e; display: block; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" class="nav-back">← Voltar ao Menu</a>
+    
+    <div class="header-module">
+        <h1>Módulo 2: Frações</h1>
+        <p>Aprende a lidar com as partes de um todo de forma lógica.</p>
+    </div>
+
+    <div class="card">
+        <h2>📜 As Regras de Ouro</h2>
+        <div class="teoria-box">
+            <p><strong>1. Soma e Subtração:</strong> Nunca somes os números de baixo! Se forem diferentes, usa o <b>MMC</b> para que as "fatias" fiquem do mesmo tamanho.</p>
+            <p><strong>2. Multiplicação:</strong> É a mais fácil. Multiplica o de cima pelo de cima e o de baixo pelo de baixo.</p>
+            <p><strong>3. Divisão:</strong> Mantém a primeira fração, inverte a segunda e multiplica.</p>
+        </div>
+        <p><em>Exemplo: <span class="frac-ex">1/2 + 1/4</span> vira <span class="frac-ex">2/4 + 1/4 = 3/4</span>.</em></p>
+    </div>
+
+    <div class="card question-box">
+        <h3>Desafio 01: Operação com MMC</h3>
+        <p>Quanto é <strong>2/3 + 1/6</strong>? <br>
+        <span class="hint">(Responde no formato x/y)</span></p>
+        <input type="text" id="q1" placeholder="Ex: 5/6">
+        <button onclick="checkQ1()">Validar Cálculo</button>
+        <div id="f1" class="feedback"></div>
+    </div>
+
+    <div class="card question-box">
+        <h3>Desafio 02: Interpretação de Texto</h3>
+        <p>Num teste de 40 perguntas, o Pedro acertou <strong>3/4</strong> da prova. Quantas perguntas ele <strong>errou</strong>?</p>
+        <input type="number" id="q2" placeholder="Número de erros">
+        <button onclick="checkQ2()">Validar Raciocínio</button>
+        <div id="f2" class="feedback"></div>
+    </div>
+
+    <div class="card question-box">
+        <h3>Desafio 03: Divisão de Frações</h3>
+        <p>Se dividires <strong>1/2</strong> de uma pizza por <strong>2</strong> pessoas, que fração da pizza total cada uma recebe?</p>
+        <input type="text" id="q3" placeholder="Ex: 1/4">
+        <button onclick="checkQ3()">Validar Conceito</button>
+        <div id="f3" class="feedback"></div>
+    </div>
+
+</div>
+
+<script>
+    function checkQ1() {
+        const val = document.getElementById('q1').value.trim();
+        const f = document.getElementById('f1');
+        f.style.display = "block";
+        // Resposta correta 5/6 (4/6 + 1/6)
+        if(val === "5/6") {
+            f.innerHTML = "✅ <b>Correto!</b> O MMC entre 3 e 6 é 6. Logo, 2/3 torna-se 4/6. Então: 4/6 + 1/6 = 5/6.";
+            f.className = "feedback correct";
+        } else if(val === "3/9") {
+            f.innerHTML = "❌ <b>ERRO CLÁSSICO!</b> Somaste os números de baixo (3+6). Nunca faças isso! Precisas de igualar os denominadores primeiro.";
+            f.className = "feedback wrong";
+        } else {
+            f.innerHTML = "❌ <b>Tenta de novo.</b> Dica: Transforma 2/3 numa fração com denominador 6.";
+            f.className = "feedback wrong";
+        }
+    }
+
+    function checkQ2() {
+        const val = document.getElementById('q2').value;
+        const f = document.getElementById('f2');
+        f.style.display = "block";
+        if(val == 10) {
+            f.innerHTML = "✅ <b>Exato!</b> Se ele acertou 3/4 (30 perguntas), ele errou 1/4 (10 perguntas).";
+            f.className = "feedback correct";
+        } else if(val == 30) {
+            f.innerHTML = "❌ <b>Cuidado com a pergunta!</b> 30 foi o que ele ACERTOU. A pergunta pede quantas ele ERROU.";
+            f.className = "feedback wrong";
+        } else {
+            f.innerHTML = "❌ <b>Raciocínio:</b> Divide 40 por 4 para saber quanto vale 1/4.";
+            f.className = "feedback wrong";
+        }
+    }
+
+    function checkQ3() {
+        const val = document.getElementById('q3').value.trim();
+        const f = document.getElementById('f3');
+        f.style.display = "block";
+        if(val === "1/4") {
+            f.innerHTML = "✅ <b>Boa!</b> Dividir por 2 é o mesmo que multiplicar por 1/2. Logo: 1/2 × 1/2 = 1/4.";
+            f.className = "feedback correct";
+        } else {
+            f.innerHTML = "❌ <b>Pensa na pizza:</b> Se já só tens metade e a divides por dois, ficas com um quarto da pizza original.";
+            f.className = "feedback wrong";
+        }
+    }
+</script>
+
+</body>
+</html>
