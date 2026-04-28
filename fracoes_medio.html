@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frações: Nível B (Operações)</title>
+    <style>
+        :root { 
+            --bg: #0d1117; 
+            --card: #161b22; 
+            --primary: #58a6ff; 
+            --success: #3fb950; 
+            --error: #f85149; 
+            --warning: #d29922;
+            --text: #c9d1d9; 
+            --text-dim: #8b949e;
+            --border: #30363d;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            padding: 20px; 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container { width: 100%; max-width: 600px; }
+
+        .nav-back { 
+            display: inline-block; 
+            margin-bottom: 20px; 
+            color: var(--primary); 
+            text-decoration: none; 
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        header { text-align: center; margin-bottom: 30px; }
+        
+        h1 { 
+            color: var(--warning); 
+            font-size: 1.8rem; 
+            margin-bottom: 10px;
+        }
+
+        .card { 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 20px; 
+            margin-bottom: 20px;
+        }
+
+        .question-text { font-size: 1.1rem; margin-bottom: 15px; display: block; line-height: 1.5; }
+
+        input { 
+            background: #0d1117; 
+            border: 1px solid var(--border); 
+            color: white; 
+            padding: 12px; 
+            border-radius: 8px; 
+            width: 100%; 
+            box-sizing: border-box; 
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--warning); }
+
+        button { 
+            background: var(--warning); 
+            border: none; 
+            padding: 12px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            color: white; 
+            width: 100%; 
+            margin-top: 12px;
+        }
+
+        button:hover { opacity: 0.9; }
+
+        .feedback { 
+            margin-top: 15px; 
+            padding: 12px; 
+            border-radius: 8px; 
+            display: none; 
+            font-size: 0.9rem; 
+            line-height: 1.4;
+        }
+
+        .correct { background: rgba(63, 185, 80, 0.1); color: var(--success); border: 1px solid var(--success); }
+        .wrong { background: rgba(248, 81, 73, 0.1); color: var(--error); border: 1px solid var(--error); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" class="nav-back">← Voltar ao Menu</a>
+    
+    <header>
+        <h1>Frações: Operações</h1>
+        <p style="color: var(--text-dim)">Nível B: Cálculos e MMC</p>
+    </header>
+    
+    <div id="quiz-container"></div>
+</div>
+
+<script>
+    const questions = [
+        { q: "Quanto é 1/2 + 1/4?", a: "3/4", hint: "Dica: Use o MMC. 1/2 vira 2/4. Agora some com 1/4." },
+        { q: "Calcule: 3/5 - 1/5", a: "2/5", hint: "Dica: Denominadores iguais, basta subtrair os de cima." },
+        { q: "Quanto é 2/3 x 4/5?", a: "8/15", hint: "Dica: Na multiplicação, faça o de cima pelo de cima e o de baixo pelo de baixo." },
+        { q: "Qual o resultado de 1/2 ÷ 3?", a: "1/6", hint: "Dica: Repita a primeira e multiplique pelo inverso da segunda (1/2 * 1/3)." },
+        { q: "Calcule: 1 - 1/3", a: "2/3", hint: "Dica: Um inteiro equivale a 3/3. Faça 3/3 - 1/3." },
+        { q: "Quanto é 3/4 + 1/8?", a: "7/8", hint: "Dica: O MMC é 8. Transforme 3/4 em 6/8." },
+        { q: "Simplifique a fração 12/18 até ser irredutível.", a: "2/3", hint: "Dica: Divida ambos por 6." },
+        { q: "Quanto é a metade de 1/4?", a: "1/8", hint: "Dica: Dividir por 2 é o mesmo que multiplicar o denominador por 2." },
+        { q: "Calcule: 2/5 + 1/2", a: "9/10", hint: "Dica: MMC entre 5 e 2 é 10. Transforme as frações para base 10." },
+        { q: "Quanto é 10 x 3/5?", a: "6", hint: "Dica: 10 vezes 3 dá 30. Agora divida 30 por 5." },
+        { q: "Qual o resultado de 4/7 ÷ 2/7?", a: "2", hint: "Dica: Repita a primeira e multiplique pelo inverso da segunda. Os 7 vão se cancelar." },
+        { q: "Converta a fração imprópria 7/2 para número decimal.", a: "3.5", hint: "Dica: Divida 7 por 2." },
+        { q: "Quanto é 1/3 + 1/3 + 1/3?", a: "1", hint: "Dica: Dá 3/3, que é o mesmo que..." },
+        { q: "Calcule: 5/6 - 1/2", a: "1/3", hint: "Dica: 1/2 é o mesmo que 3/6. Faça 5/6 - 3/6 e simplifique." },
+        { q: "Quanto é o triplo de 2/9?", a: "2/3", hint: "Dica: Multiplique por 3. Fica 6/9. Agora simplifique." },
+        { q: "Qual fração representa 0,75?", a: "3/4", hint: "Dica: Pense em 75 centavos como parte de 1 real." },
+        { q: "Calcule: 2/3 ÷ 1/2?", a: "4/3", hint: "Dica: Multiplique 2/3 por 2/1." },
+        { q: "Quanto é 1/5 de 200?", a: "40", hint: "Dica: Divida 200 por 5." },
+        { q: "Se uma garrafa de 2 litros está com 3/4 da capacidade, quantos litros ela tem?", a: "1.5", hint: "Dica: 2 x 3 = 6. Divida 6 por 4." },
+        { q: "Calcule: (1/2 x 1/2) + 1/4", a: "1/2", hint: "Dica: Primeiro multiplique (1/4), depois some 1/4 + 1/4." }
+    ];
+
+    const container = document.getElementById('quiz-container');
+
+    questions.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <span class="question-text"><b>Questão ${index + 1}:</b> ${item.q}</span>
+            <input type="text" id="input-${index}" placeholder="Ex: 1/2 ou 0.5">
+            <button onclick="check(${index})">Verificar</button>
+            <div id="feedback-${index}" class="feedback"></div>
+        `;
+        container.appendChild(card);
+    });
+
+    function check(i) {
+        const val = document.getElementById(`input-${i}`).value.trim().replace(',', '.');
+        const f = document.getElementById(`feedback-${i}`);
+        f.style.display = "block";
+        
+        // Validação simples de igualdade de string ou valor numérico
+        if(val === questions[i].a || parseFloat(val) === parseFloat(questions[i].a)) {
+            f.innerHTML = "✅ <b>Correto!</b> Excelente cálculo.";
+            f.className = "feedback correct";
+        } else {
+            f.innerHTML = "❌ <b>Quase!</b> " + questions[i].hint;
+            f.className = "feedback wrong";
+        }
+    }
+</script>
+
+</body>
+</html>
+
