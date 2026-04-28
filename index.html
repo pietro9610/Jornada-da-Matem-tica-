@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-pt">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +16,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg);
             color: var(--text-main);
             margin: 0;
@@ -35,17 +35,8 @@
             margin-bottom: 30px;
         }
 
-        h1 {
-            margin: 0;
-            font-size: 2rem;
-            color: var(--primary);
-            letter-spacing: -1px;
-        }
-
-        p.subtitle {
-            color: var(--text-dim);
-            margin-top: 10px;
-        }
+        h1 { margin: 0; font-size: 2rem; color: var(--primary); }
+        p.subtitle { color: var(--text-dim); margin-top: 10px; }
 
         .menu-container {
             width: 90%;
@@ -74,38 +65,18 @@
             border-color: var(--primary);
         }
 
-        .module-number {
-            font-size: 0.8rem;
-            font-weight: bold;
-            color: var(--primary);
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-
-        .module-title {
-            font-size: 1.25rem;
-            margin-bottom: 10px;
-        }
-
-        .module-desc {
-            font-size: 0.9rem;
-            color: var(--text-dim);
-            margin-bottom: 20px;
-        }
+        .module-number { font-size: 0.8rem; font-weight: bold; color: var(--primary); text-transform: uppercase; margin-bottom: 10px; }
+        .module-title { font-size: 1.25rem; margin-bottom: 10px; }
+        .module-desc { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 20px; }
 
         .status-badge {
             font-size: 0.75rem;
-            padding: 4px 8px;
+            padding: 4px 10px;
             border-radius: 20px;
-            background: #21262d;
+            background: rgba(35, 134, 54, 0.15);
+            color: #3fb950;
             align-self: flex-start;
-            color: var(--text-dim);
-        }
-
-        /* Estilo para módulos que ainda não criamos */
-        .locked {
-            opacity: 0.6;
-            cursor: not-allowed;
+            border: 1px solid rgba(63, 185, 80, 0.3);
         }
     </style>
 </head>
@@ -113,7 +84,7 @@
 
     <header>
         <h1>Jornada Matemática</h1>
-        <p class="subtitle">Domina os números, conquista o teu futuro.</p>
+        <p class="subtitle">Domine os números, conquiste o seu futuro.</p>
     </header>
 
     <main class="menu-container">
@@ -122,57 +93,56 @@
             <div>
                 <span class="module-number">Módulo 01</span>
                 <h2 class="module-title">Operações Básicas</h2>
-                <p class="module-desc">Soma, subtração, multiplicação e divisão com foco em agilidade mental e prioridades.</p>
+                <p class="module-desc">Soma, subtração, multiplicação e divisão com foco em agilidade mental.</p>
             </div>
-            <span class="status-badge" style="color: #34d399;">Disponível</span>
+            <span class="status-badge">Disponível</span>
         </a>
 
         <a href="fracoes.html" class="module-card">
             <div>
                 <span class="module-number">Módulo 02</span>
                 <h2 class="module-title">Frações</h2>
-                <p class="module-desc">MMC, simplificação e operações com partes de um todo de forma intuitiva.</p>
+                <p class="module-desc">MMC, simplificação e operações com partes de um todo.</p>
             </div>
-            <span class="status-badge">Próximo</span>
+            <span class="status-badge">Disponível</span>
         </a>
 
-        <a href="#" class="module-card locked">
+        <a href="potencia.html" class="module-card">
             <div>
                 <span class="module-number">Módulo 03</span>
                 <h2 class="module-title">Potência e Raiz</h2>
-                <p class="module-desc">Desvenda as propriedades dos expoentes e a lógica reversa da radiciação.</p>
+                <p class="module-desc">Propriedades dos expoentes e a lógica reversa da radiciação.</p>
             </div>
-            <span class="status-badge">Bloqueado</span>
+            <span class="status-badge">Disponível</span>
         </a>
 
-        <a href="#" class="module-card locked">
+        <a href="porcentagem.html" class="module-card">
             <div>
                 <span class="module-number">Módulo 04</span>
                 <h2 class="module-title">Porcentagem</h2>
-                <p class="module-desc">Matemática financeira e análise estatística aplicada ao dia a dia.</p>
+                <p class="module-desc">Matemática financeira aplicada ao dia a dia.</p>
             </div>
-            <span class="status-badge">Bloqueado</span>
+            <span class="status-badge">Disponível</span>
         </a>
 
-        <a href="#" class="module-card locked">
+        <a href="proporcao.html" class="module-card">
             <div>
                 <span class="module-number">Módulo 05</span>
                 <h2 class="module-title">Razão e Proporção</h2>
-                <p class="module-desc">Regra de três, escalas e comparações entre diferentes grandezas.</p>
+                <p class="module-desc">Regra de três e comparações entre diferentes grandezas.</p>
             </div>
-            <span class="status-badge">Bloqueado</span>
+            <span class="status-badge">Disponível</span>
         </a>
 
-        <a href="#" class="module-card locked">
+        <a href="equacoes.html" class="module-card">
             <div>
                 <span class="module-number">Módulo 06</span>
                 <h2 class="module-title">Interpretação e Equações</h2>
-                <p class="module-desc">Transforma problemas de texto em linguagem matemática e resolve incógnitas.</p>
+                <p class="module-desc">Transforme problemas de texto em linguagem matemática.</p>
             </div>
-            <span class="status-badge">Bloqueado</span>
+            <span class="status-badge">Disponível</span>
         </a>
 
     </main>
-
 </body>
 </html>
