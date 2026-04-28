@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Potência e Raiz: Nível C (Desafio ENEM)</title>
+    <style>
+        :root { 
+            --bg: #0d1117; 
+            --card: #161b22; 
+            --primary: #58a6ff; 
+            --success: #3fb950; 
+            --error: #f85149; 
+            --text: #c9d1d9; 
+            --text-dim: #8b949e;
+            --border: #30363d;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            padding: 20px; 
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container { width: 100%; max-width: 650px; }
+
+        .nav-back { 
+            display: inline-block; 
+            margin-bottom: 20px; 
+            color: var(--primary); 
+            text-decoration: none; 
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        header { text-align: center; margin-bottom: 30px; }
+        
+        h1 { 
+            color: var(--error); 
+            font-size: 1.8rem; 
+            margin-bottom: 10px;
+        }
+
+        .card { 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 24px; 
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .question-text { 
+            font-size: 1.05rem; 
+            line-height: 1.6;
+            margin-bottom: 15px; 
+            display: block; 
+        }
+
+        input { 
+            background: #0d1117; 
+            border: 1px solid var(--border); 
+            color: white; 
+            padding: 12px; 
+            border-radius: 8px; 
+            width: 100%; 
+            box-sizing: border-box; 
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input:focus { border-color: var(--error); }
+
+        button { 
+            background: var(--error); 
+            border: none; 
+            padding: 12px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            color: white; 
+            width: 100%; 
+            margin-top: 12px;
+            font-size: 1rem;
+        }
+
+        button:hover { opacity: 0.9; }
+
+        .feedback { 
+            margin-top: 15px; 
+            padding: 12px; 
+            border-radius: 8px; 
+            display: none; 
+            font-size: 0.9rem; 
+            line-height: 1.4;
+        }
+
+        .correct { background: rgba(63, 185, 80, 0.1); color: var(--success); border: 1px solid var(--success); }
+        .wrong { background: rgba(248, 81, 73, 0.1); color: var(--error); border: 1px solid var(--error); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" class="nav-back">← Voltar ao Menu</a>
+    
+    <header>
+        <h1>Potência e Raiz: Desafio</h1>
+        <p style="color: var(--text-dim)">Nível C: Interpretação e Aplicações</p>
+    </header>
+    
+    <div id="quiz-container"></div>
+</div>
+
+<script>
+    const questions = [
+        { q: "Uma população de vírus triplica a cada hora. Se começou com 10 vírus, quantos haverá após 4 horas?", a: "810", hint: "Dica: 10 x 3 elevado a 4." },
+        { q: "Um capital de R$ 2.000,00 rendeu juros compostos de 5% ao mês durante 2 meses. Qual o montante final?", a: "2205", hint: "Dica: 2000 x (1,05)²." },
+        { q: "Um azulejo quadrado tem área de 400 cm². Qual o comprimento do seu lado?", a: "20", hint: "Dica: Raiz quadrada de 400." },
+        { q: "Uma caixa em formato de cubo tem aresta de 3 metros. Qual o seu volume em metros cúbicos?", a: "27", hint: "Dica: 3 elevado ao cubo (3³)." },
+        { q: "Um boato dobra o número de informados a cada 5 minutos. Se começou com 2 pessoas, quantas saberão após 30 minutos?", a: "128", hint: "Dica: 2 x 2 elevado a 6 (pois 30/5 = 6 intervalos)." },
+        { q: "A distância de uma estrela é de 4,5 x 10^12 km. Escreva esse número na forma padrão (apenas números).", a: "4500000000000", hint: "Dica: Desloque a vírgula 12 casas para a direita." },
+        { q: "A diagonal de um quadrado é L√2. Se o lado é 5 cm e √2 = 1,41, qual o valor da diagonal?", a: "7.05", hint: "Dica: Multiplique 5 por 1,41." },
+        { q: "Divida 10^7 por 10^4. Qual o resultado final (número inteiro)?", a: "1000", hint: "Dica: Subtraia os expoentes (10³)." },
+        { q: "A área de um círculo é π x r². Se o raio é 10 cm e π = 3,14, qual a área?", a: "314", hint: "Dica: 10² é 100. Multiplique por 3,14." },
+        { q: "Uma substância radioativa perde metade da massa a cada dia. Se havia 128g, quanto restará após 5 dias?", a: "4", hint: "Dica: Divida 128 por 2 elevado a 5 (32)." },
+        { q: "Um arquivo tem 2^20 bytes e outro tem 2^15 bytes. Quantas vezes o primeiro é maior que o segundo?", a: "32", hint: "Dica: 2 elevado a (20-15), que é 2⁵." },
+        { q: "Em um terremoto, a magnitude 9 é quantas vezes mais forte que a 6? (Cada grau aumenta 10x a força)", a: "1000", hint: "Dica: A diferença é de 3 graus, então 10³." },
+        { q: "O volume de um reservatório cúbico é 125 m³. Qual a medida do seu lado?", a: "5", hint: "Dica: Raiz cúbica de 125." },
+        { q: "O lado de um triângulo equilátero é 4 cm. A altura é (L√3)/2. Se √3 = 1,73, qual a altura?", a: "3.46", hint: "Dica: (4 x 1,73) / 2." },
+        { q: "Uma aplicação financeira segue a fórmula V = 1000 x (1,1)^t. Qual o valor após 3 anos?", a: "1331", hint: "Dica: Calcule (1,1)³ e multiplique por 1000." },
+        { q: "Se 3^x = 243, qual o valor de x?", a: "5", hint: "Dica: Multiplique o 3 por ele mesmo até chegar em 243." },
+        { q: "Um cubo tem 8 cm³ de volume. Qual a sua área total (soma das 6 faces)?", a: "24", hint: "Dica: Lado = 2. Área de uma face = 2² = 4. Multiplique por 6." },
+        { q: "Qual o valor de (-5)³?", a: "-125", hint: "Dica: Base negativa com expoente ímpar mantém o sinal negativo." },
+        { q: "A velocidade da luz é 3 x 10^8 m/s. Quanto ela percorre em 100 segundos? (Apenas números)", a: "30000000000", hint: "Dica: Multiplique 300.000.000 por 100." },
+        { q: "Qual a raiz quadrada de 0,25?", a: "0.5", hint: "Dica: 0,5 x 0,5 = 0,25." }
+    ];
+
+    const container = document.getElementById('quiz-container');
+
+    questions.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <span class="question-text"><b>${index + 1}.</b> ${item.q}</span>
+            <input type="text" id="input-${index}" placeholder="Sua resposta...">
+            <button onclick="check(${index})">Verificar Resposta</button>
+            <div id="feedback-${index}" class="feedback"></div>
+        `;
+        container.appendChild(card);
+    });
+
+    function check(i) {
+        const val = document.getElementById(`input-${i}`).value.trim().replace(',', '.');
+        const f = document.getElementById(`feedback-${i}`);
+        f.style.display = "block";
+        
+        if(val === questions[i].a || parseFloat(val) === parseFloat(questions[i].a)) {
+            f.innerHTML = "✅ <b>Correto!</b> Excelente interpretação.";
+            f.className = "feedback correct";
+        } else {
+            f.innerHTML = "❌ <b>Quase lá!</b> " + questions[i].hint;
+            f.className = "feedback wrong";
+        }
+    }
+</script>
+
+</body>
+</html>
+
