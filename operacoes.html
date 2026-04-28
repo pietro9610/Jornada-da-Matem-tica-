@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 1: Operações Básicas</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --card: #161b22;
+            --primary: #58a6ff;
+            --text: #c9d1d9;
+            --success: #238636;
+            --error: #da3633;
+            --warning: #d29922;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container { max-width: 800px; margin: auto; }
+
+        .nav-back {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .header-module {
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        h2 { color: var(--primary); margin-top: 0; }
+
+        .teoria-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            background: #0d1117;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .question-box { border-top: 1px solid #30363d; padding-top: 20px; margin-top: 20px; }
+
+        .exp { background: #21262d; padding: 5px 10px; border-radius: 4px; font-family: monospace; }
+
+        input {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            width: 100%;
+            max-width: 250px;
+            margin: 15px 0;
+            font-size: 1.1rem;
+        }
+
+        button {
+            background: var(--primary);
+            color: #0d1117;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover { filter: brightness(1.2); }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+            border-left: 5px solid;
+        }
+
+        .correct { background: #1a351f; border-color: var(--success); color: #34d399; }
+        .wrong { background: #351a1a; border-color: var(--error); color: #f87171; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html" class="nav-back">← Voltar ao Menu</a>
+    
+    <div class="header-module">
+        <h1>Módulo 1: Operações Básicas</h1>
+        <p>A base onde 80% dos erros acontecem. Domine a hierarquia e o sinal.</p>
+    </div>
+
+    <div class="card">
+        <h2>💡 Guia de Sobrevivência</h2>
+        <div class="teoria-grid">
+            <div>
+                <strong>A Hierarquia (PEMDAS)</strong><br>
+                1. Parênteses <br>
+                2. Expoentes <br>
+                3. Mult/Div (Esq -> Dir) <br>
+                4. Soma/Sub (Esq -> Dir)
+            </div>
+            <div>
+                <strong>Regra de Sinais</strong><br>
+                • <span class="exp">+</span> com <span class="exp">+</span> = <span class="exp">+</span> <br>
+                • <span class="exp">-</span> com <span class="exp">-</span> = <span class="exp">+</span> <br>
+                • Diferentes = <span class="exp">-</span> <br>
+                <em>(Na mult/div)</em>
+            </div>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--warning); margin-top: 10px;">
+            ⚠️ <strong>Dica Pro:</strong> 1000 - 467? Faça 999 - 466. É mais rápido e o resultado é o mesmo!
+        </p>
+    </div>
+
+    <div class="card question-box">
+        <h3>Desafio 01: A Ordem dos Fatores</h3>
+        <p>Qual o valor exato da expressão abaixo? <br>
+        <code style="font-size: 1.4rem;">45 + 5 × (12 ÷ 3) - 20</code></p>
+        <input type="number" id="q1" placeholder="Sua resposta...">
+        <button onclick="checkQ1()">Validar Resposta</button>
+        <div id="f1" class="feedback"></div>
+    </div>
+
+    <div class="card question-box">
+        <h3>Desafio 02: Logística e Distribuição</h3>
+        <p>Um armazém recebeu 1.200 caixas. <br>
+        - Na segunda, saíram 150 caixas. <br>
+        - Na terça, saiu o dobro de segunda. <br>
+        - Na quarta, entraram 200 novas caixas. <br>
+        Quantas caixas estão no armazém agora?</p>
+        <input type="number" id="q2" placeholder="Sua resposta...">
+        <button onclick="checkQ2()">Validar Resposta</button>
+        <div id="f2" class="feedback"></div>
+    </div>
+
+    <div class="card question-box">
+        <h3>Desafio 03: O Perigo dos Sinais</h3>
+        <p>Resolva: <br>
+        <code style="font-size: 1.4rem;">(-15) + (-5) × (-4) + 10</code></p>
+        <input type="number" id="q3" placeholder="Sua resposta...">
+        <button onclick="checkQ3()">Validar Resposta</button>
+        <div id="f3" class="feedback"></div>
+    </div>
+
+</div>
+
+<script>
+    function checkQ1() {
+        const val = document.getElementById('q1').value;
+        const f = document.getElementById('f1');
+        f.style.display = "block";
+        if(val == 45) {
+            f.innerHTML = "✅ <b>Correto!</b> Passo a passo: (12÷3)=4 -> 5×4=20 -> 45+20-20 = 45.";
+            f.className = "feedback correct";
+        } else if(val == 180) {
+            f.innerHTML = "❌ <b>Erro de Ordem!</b> Você somou 45+5 primeiro. Lembre-se: Parênteses e Multiplicação vêm antes da soma!";
+            f.className = "feedback wrong";
+        } else {
+            f.innerHTML = "❌ <b>Incorreto.</b> Resolva primeiro os parênteses, depois multiplique o resultado por 5.";
+            f.className = "feedback wrong";
+        }
+    }
+
+    function checkQ2() {
+        const val = document.getElementById('q2').value;
+        const f = document.getElementById('f2');
+        f.style.display = "block";
+        if(val == 950) {
+            f.innerHTML = "✅ <b>Perfeito!</b> Conta: 1200 - 150 (Seg) - 300 (Ter) + 200 (Qua) = 950.";
+            f.className = "feedback correct";
+        } else {
+            f.innerHTML = "❌ <b>Atenção aos detalhes.</b> Verifique se você dobrou o valor de segunda corretamente (300) e se somou as caixas que entraram na quarta.";
+            f.className = "feedback wrong";
+        }
+    }
+
+    function checkQ3() {
+        const val = document.getElementById('q3').value;
+        const f = document.getElementById('f3');
+        f.style.display = "block";
+        if(val == 15) {
+            f.innerHTML = "✅ <b>Mestre dos Sinais!</b> (-5) × (-4) é +20. Então fica: -15 + 20 + 10 = 15.";
+            f.className = "feedback correct";
+        } else if(val == -25) {
+            f.innerHTML = "❌ <b>Cuidado!</b> (-5) vezes (-4) resulta em um número POSITIVO (+20). Menos com menos dá mais na multiplicação.";
+            f.className = "feedback wrong";
+        } else {
+            f.innerHTML = "❌ <b>Incorreto.</b> Lembre-se da hierarquia: multiplique os números negativos primeiro.";
+            f.className = "feedback wrong";
+        }
+    }
+</script>
+
+</body>
+</html>
